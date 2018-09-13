@@ -1,0 +1,49 @@
+.signin-prnt{
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -150px;
+    background: #fff;
+    padding: 3%;
+    min-width: 400px;
+}
+.login-btn-prnt{
+    margin-top: 10px;
+}
+.login-btn-prnt button{
+    width: 100%;
+    border: 1px solid #449d44;
+}
+.login-btn-prnt button:hover{
+    background: transparent;
+    color: #449d44;
+}
+.user-icon .fa-user{
+    color: #e0e0e0;
+    font-size: 65px;
+    margin-top: 10%;
+}
+.user-icon{
+    background: transparent;
+    width: 100px;
+    border: 1px solid #e6e5e5;
+    height: 100px;
+    border-radius: 50%;
+}
+.reset-password{
+    margin: 15px;
+    font-size: 10px;
+    color: #1b2b34;
+}
+.create-account-parnt .crt-acnt{
+    margin-top: 15px;
+    font-size: 13px;
+    font-family: serif;
+    color: #1b2b34;
+    text-decoration: none;
+}
+.hd{
+    font-family: serif;
+    color: #1b2b34;
+}
