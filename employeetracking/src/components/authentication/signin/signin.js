@@ -8,8 +8,6 @@ import './signin.css';
  
 import { login } from '../../../services/authentication.service';
 
-
-
 class SignIn extends Component {
 
     constructor(props){
