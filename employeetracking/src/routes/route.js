@@ -14,7 +14,7 @@ const CustomRoutes = ()=>(
             <Route exact path="/" component={ Dashboard }></Route>
             <Route exact path="/login" component={ SignIn }></Route>     
             <Route exact path="/createaccount" component={ SignUp }></Route>     
-            <Route exact path="/home" component={ Dashboard }></Route>     
+            <Route exact path="/dashboard" component={ Dashboard }></Route>     
                  
         </div>
     </Router>

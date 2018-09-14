@@ -1,16 +1,16 @@
 import React , { Component } from 'react';
-import { ButtonToolbar , Button } from 'react-bootstrap/lib';
 
+import './dashboard.css';
+// components
+import Header from '../header/header';
 
 
 class Dashboard extends Component {
     render(){
         return(
-            <h1>
-               <ButtonToolbar>
-                    <Button>Default</Button>
-                </ButtonToolbar>
-            </h1>
+            <div className="prnt-dashboard">
+                <Header />
+            </div>
         )
     }
 }

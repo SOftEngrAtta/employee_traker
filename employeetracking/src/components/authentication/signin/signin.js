@@ -44,35 +44,31 @@ class SignIn extends Component {
     }
 
     render(){
-        const formcss = {
-            margin : {
-                'margin-top':'15px'
-            }
-        }
+       
         return(
-            <div class="signin-prnt">
-                <div align="center" class="hd">
+            <div className="signin-prnt">
+                <div align="center" className="hd">
                     <h1>Employee Tracker</h1>
                 </div>
                 <div align="center">
-                    <div class="user-icon">
+                    <div className="user-icon">
                         <FontAwesome name='user'/>
                     </div>
                 </div>
-                <div style={ formcss.margin }>
-                    <input class="input-field" placeholder="Email Address" onChange={ this.handler.bind(this , 'email') }/>
+                <div className="margn-cls" >
+                    <input className="input-field" placeholder="Email Address" onChange={ this.handler.bind(this , 'email') }/>
                 </div>
-                <div style={ formcss.margin }>
-                    <input class="input-field" placeholder="Password" onChange={ this.handler.bind(this , 'password') }/>
+                <div className="margn-cls">
+                    <input className="input-field" placeholder="Password" onChange={ this.handler.bind(this , 'password') }/>
                 </div>
-                <div class="reset-password">
+                <div className="reset-password">
                     <FontAwesome name='lock'/> Reset Password 
                 </div>
-                <div class="login-btn-prnt" align="center">
+                <div className="login-btn-prnt" align="center">
                     <Button bsStyle="success" onClick={ this.loginaccount.bind(this) } >Login</Button>
                 </div>
-                <div class="create-account-parnt" align="center" style={ formcss.margin }>
-                    <Link to='/createaccount' class="crt-acnt">Create Account</Link>
+                <div className="create-account-parnt margn-cls" align="center" >
+                    <Link to='/createaccount' className="crt-acnt">Create Account</Link>
                 </div>
             </div>
         )
