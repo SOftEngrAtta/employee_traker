@@ -40,8 +40,6 @@ class SignUp extends Component {
             EmailAddress: this.state.EmailAddress,
             Password: this.state.Password
         }).then(success => {
-            console.log(success)
-            debugger
             this.props.history.push('/dashboard')
         }, error => {
             console.log(error);

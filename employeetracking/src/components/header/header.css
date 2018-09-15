@@ -1,5 +1,5 @@
 .prnt-navbar{margin-bottom: 0px;padding: 5px;border-radius: 1px;}
 .hd-hr{ color: #fff !important;}
 .navbar-nav>li>a {margin: 0px; padding: 0px;}
-.img-div{border-radius: 27px; width: 55px; background: #5cb85c; height: 55px;}
+.img-div{border-radius: 27px; width: 55px; background: #5cb85c; height: 55px; cursor: pointer;}
 img{border-radius: 50%; width: 50px; height: 50px; margin-top: 3px; margin-left: 2px;}
