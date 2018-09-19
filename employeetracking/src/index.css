@@ -1,11 +1,33 @@
 @import 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css';
 @import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
+@import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900';
 
+*{
+  margin: 0; padding: 0;
 
-body { margin: 0; padding: 0; font-family: sans-serif; background: #fff; }
+}
+body {  font-family: 'Roboto', sans-serif !important; background: #f99621;font-size:13px;color:#2e5d7b; }
 
 /* generic css */
-input{ outline: none; }
+input{ outline: none;width:100%;border-radius:2px;padding:3px 0px 3px 20px; border:1px solid #a5b5cb;height: 30px;margin-bottom: 15px;}
+input:focus{
+  -webkit-box-shadow: 0px 3px 6px 0px rgba(44, 44, 44, 0.3);
+  box-shadow: 0px 3px 6px 0px rgba(44, 44, 44, 0.3);
+  border-color:#2d2d2d;
+}
+label{font-weight: 500;}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #ccc;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: #ccc;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: #ccc;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    color: #ccc;
+  }
 .input-field{
     padding: 2%;
     width: 100%;
@@ -13,3 +35,33 @@ input{ outline: none; }
     border: 1px solid #dbd9d9;
 }
 .margn-cls{ margin-top: 15px;}
+
+/*** theme sections padding ***/
+.sec-padding-100 { padding:100px 0;} .sec-padding-90 { padding:90px 0;}
+.sec-padding-80 { padding:80px 0;} .sec-padding-70 { padding:70px 0;}
+.sec-padding-60 { padding:60px 0;} .sec-padding-xlarge { padding:50px 0; }
+.sec-padding-large { padding:40px 0; } .sec-padding-medium { padding:30px 0px; }
+.sec-padding-small { padding:25px 0; } .sec-padding-xsmall { padding:20px 0; }
+.sec-padding-xxsmall { padding:10px 0; }
+
+/*** theme sections margin ***/
+.sec-margin-100 { margin:100px 0;} .sec-margin-90 { margin:90px 0;}
+.sec-margin-80 { margin:80px 0;} .sec-margin-70 { margin:70px 0;}
+.sec-margin-60 { margin:60px 0;} .sec-margin-xlarge { margin:50px 0; }
+.sec-margin-large { margin:40px 0; } .sec-margin-medium { margin:30px 0; }
+.sec-margin-small { margin:25px 0; } .sec-margin-xsmall { margin:20px 0; }
+.sec-margin-xxsmall { margin:10px 0; }
+
+.bordertop{border-top:1px solid #ccc;}
+.btnmain{background: #f99621;color:#fff;padding:8px 25px;font-size:13px;font-weight: 500;border-radius:2px;border:1px solid #f99621;margin:0px 5px;}
+.btnmain:hover{color:#f99621;background: #fff;}
+
+.btnsecond{color:#f99621;background: #fff;padding:8px 25px;font-size:13px;font-weight: 500;border-radius:2px;border:1px solid #f99621;margin:0px 5px;}
+.btnsecond:hover{background: #f99621;color:#fff;}
+
+.btnCancel{background: #2e5d7b;color:#fff;padding:8px 25px;font-size:13px;font-weight: 500;border-radius:2px;border:1px solid #2e5d7b;margin:0px 5px;}
+.btnCancel:hover{color:#2e5d7b;background: #fff;}
+
+
+
+
