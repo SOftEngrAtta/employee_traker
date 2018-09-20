@@ -1,20 +1,56 @@
-import React , { Component } from 'react';
+import React, { Component } from 'react';
 
 // components 
 import Header from '../header/header';
 
-export default class UserProfile extends Component{
-    
-    updateprofile(){ console.log('profile upload functionality'); }
+// services 
+import { updateprofiledata } from '../../services/employee.service';
 
-    render(){
 
-        
+export default class UserProfile extends Component {
 
-        return(
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            userprofile: {
+                Id: 1,
+                FullName: 'Atta ur Rehman',
+                ImageName: 'Image 1',
+                Age: 2,
+                EmailAddress: 'abc@gmail.com',
+                Address: 'abc home',
+                ContactNumber: '234234',
+                HomeLocation: {
+                    Latitude: '213123',
+                    Longitude: '1231231'
+                }
+            }
+        }
+    }
+
+    updateData() {
+        updateprofiledata(this.state.userprofile).then(res => { console.log(res) }, error => { console.log(error) })
+    }
+
+    uploadimage(){
+        uploadimagefunc()
+        .then(res=>{
+
+        },error=>{
+            
+        })
+    }
+
+
+    render() {
+
+        return (
             <div>
                 <Header />
-                <button onClick={ this.updateprofile.bind(this) }>Update Profile</button> 
+
+                <button onClick={this.updateData.bind(this)}>Upload</button>
+                <button onClick={this.uploadimage.bind(this)}>Upload Image</button>
             </div>
         )
     }

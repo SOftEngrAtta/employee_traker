@@ -38,6 +38,7 @@ class SignIn extends Component {
         login({EmailAddress : this.state.EmailAddress,Password : this.state.Password})
         .then(success=>{
             console.log(success);
+            this.props.history.push('/dashboard')
         },error=>{
             console.log(error);
         })

@@ -10,7 +10,6 @@ const CustomRoutes = ()=>(
 
     <Router>
         <div>
-
             <Route exact path="/" component={ Dashboard }></Route>
             <Route exact path="/login" component={ SignIn }></Route>     
             <Route exact path="/createaccount" component={ SignUp }></Route>     

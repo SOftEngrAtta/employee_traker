@@ -1,4 +1,6 @@
-import Auth from '../config/firebasekeys';
+import fbDB from '../config/firebasekeys'
+
+let Auth = fbDB.auth();
 
 /** Login Functionality
  * @param {Object} data 

@@ -9,8 +9,10 @@ const Keys ={
     messagingSenderId: "395565462358"
 }
 
-firebase.initializeApp(Keys);
+let fbDB = firebase.initializeApp(Keys)
 
-const Auth = firebase.auth();
+export default fbDB;
 
-export default Auth;
+
+
+
