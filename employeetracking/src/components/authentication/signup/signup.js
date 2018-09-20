@@ -2,17 +2,23 @@ import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
 import { Link } from 'react-router-dom';
 
+//shared files
+import DisplayMessage , { SuccessMessage  , ErrorMessage } from '../../../shared/responsemsg';
+
+// bootstrap 
 import { Button } from 'react-bootstrap/lib';
 
+// css files
 import './signup.css'
 
 // services 
 import { createaccount } from '../../../services/authentication.service';
 
+
 class SignUp extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             EmailAddress: '',
             Password: ''
@@ -20,9 +26,6 @@ class SignUp extends Component {
     }
 
     handler(_e, event) {
-
-
-
         if (_e === 'email') {
             this.setState({
                 EmailAddress: event.target.value
@@ -36,19 +39,27 @@ class SignUp extends Component {
     }
 
     _createAccount() {
+
+        if(!this.state.EmailAddress){ ErrorMessage('Enter email address'); return false; }
+
+        if(!this.state.Password){ ErrorMessage('Enter password'); return false; }
+
+        if(this.state.Password && this.state.Password < 8){ ErrorMessage('Password length should be greater than 8 digits') }
+
         createaccount({
             EmailAddress: this.state.EmailAddress,
             Password: this.state.Password
         }).then(success => {
-            this.props.history.push('/dashboard')
+            SuccessMessage('Account created successfully');
         }, error => {
-            console.log(error);
+            ErrorMessage('Getting some error, contact with support team');
         })
     }
 
     render() {
         return (
             <div className="signin-prnt">
+                <DisplayMessage timeduration={ 2000 }/>
                 <div align="center" className="hd">
                     <h1>Employee Tracker</h1>
                 </div>
@@ -58,10 +69,18 @@ class SignUp extends Component {
                     </div>
                 </div>
                 <div className="margn-cls">
-                    <input className="input-field" type="text" placeholder="Email Address" onChange={this.handler.bind(this, 'email')} />
+                    <input className="input-field" 
+                        type="text" 
+                        placeholder="Email Address" 
+                        value={ this.state.EmailAddress }
+                        onChange={this.handler.bind(this, 'email')} />
                 </div>
                 <div className="margn-cls">
-                    <input className="input-field" type="password" placeholder="Password" onChange={this.handler.bind(this, 'password')} />
+                    <input className="input-field" 
+                        type="password" 
+                        placeholder="Password" 
+                        value={ this.state.Password }
+                        onChange={this.handler.bind(this, 'password')} />
                 </div>
                 <div className="login-btn-prnt" align="center">
                     <Button bsStyle="success" onClick={this._createAccount.bind(this)} >Create Account</Button>

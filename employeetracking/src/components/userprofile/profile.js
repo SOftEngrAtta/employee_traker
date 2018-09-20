@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 // components 
 import Header from '../header/header';
 import './profile.css'
 export default class UserProfile extends Component {
 
-    updateprofile() { console.log('profile upload functionality'); }
 
     render() {
 
@@ -14,7 +14,6 @@ export default class UserProfile extends Component {
         return (
             <div>
                 <Header />
-                <button onClick={this.updateprofile.bind(this)}>Update Profile</button>
                 <section className="">
                     <div className="profile-main">
                         <div className="row">
@@ -60,14 +59,13 @@ export default class UserProfile extends Component {
                         <div  className="sec-padding-xsmall bordertop sec-margin-xxsmall">
                             <div className="row">
                                 <div className="col-md-6 ">
-                                    <a href="javascript:;" className="sec-padding-xxsmall">Click here to login.</a>
+                                    <Link to="/login" className="sec-padding-xxsmall">Click here to login.</Link>
                                 </div>
                                 <div className="col-md-6 text-right">
                                     <button className="btnmain">Submit</button> <button class="btnCancel">Cancel</button>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </section>
             </div>

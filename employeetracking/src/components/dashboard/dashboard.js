@@ -10,6 +10,7 @@ class Dashboard extends Component {
         return(
             <div className="prnt-dashboard">
                 <Header />
+                <h1>Welcome JOHN</h1> 
             </div>
         )
     }
