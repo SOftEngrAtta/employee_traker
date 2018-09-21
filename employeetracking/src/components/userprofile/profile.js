@@ -8,9 +8,6 @@ export default class UserProfile extends Component {
 
 
     render() {
-
-
-
         return (
             <div>
                 <Header />
@@ -56,10 +53,10 @@ export default class UserProfile extends Component {
                                 <span className="hint"></span>
                             </div>
                         </div>
-                        <div  className="sec-padding-xsmall bordertop sec-margin-xxsmall">
+                        <div className="sec-padding-xsmall bordertop sec-margin-xxsmall">
                             <div className="row">
                                 <div className="col-md-6 ">
-                                    <Link to="/login" className="sec-padding-xxsmall">Click here to login.</Link>
+                                    <Link to="/dashboard" className="sec-padding-xxsmall">Go Back.</Link>
                                 </div>
                                 <div className="col-md-6 text-right">
                                     <button className="btnmain">Submit</button> <button class="btnCancel">Cancel</button>

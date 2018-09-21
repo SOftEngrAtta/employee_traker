@@ -7,7 +7,7 @@
   margin: 0; padding: 0;
 
 }
-body {  font-family: 'Roboto', sans-serif !important; background: #f99621;font-size:13px;color:#2e5d7b; }
+body {  font-family: 'Roboto', sans-serif !important; background:#e0e0e0;font-size:13px;color:#2e5d7b; }
 
 /* generic css */
 input{ outline: none;width:100%;border-radius:2px;padding:3px 0px 3px 20px; border:1px solid #a5b5cb;height: 30px;margin-bottom: 15px;}

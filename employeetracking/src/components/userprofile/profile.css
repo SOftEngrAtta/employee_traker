@@ -1,7 +1,4 @@
-.profile-main{width:600px;margin:0 auto;background: #fff;border-radius:4px;padding:30px 30px 0px 30px;
-    -webkit-box-shadow: 0px 6px 60px 0px #f99621;
-    box-shadow: 0px 6px 60px 0px #f99621;
-}
+.profile-main{width:600px;margin:0 auto;background: #fff;border-radius:4px;padding:30px 30px 0px 30px;}
 .profile-main label{margin-top:15px;}
 .profile-main input{margin:0px;}
 .profile-main .hint{color: #b7b2b2;font-size: 11px;margin-left: 5px;}

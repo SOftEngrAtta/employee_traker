@@ -41,7 +41,7 @@ class SignIn extends Component {
     }
 
     loginaccountpressenterbtn(e){
-        if(e.charCode == 13){ 
+        if(e.charCode === 13){ 
             this.loginaccount() 
         }
     }

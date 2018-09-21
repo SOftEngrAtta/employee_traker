@@ -3,7 +3,7 @@
 import fbDB from '../config/firebasekeys'
 
 // local db storage import  
-import { getkey_data , setkey_data } from './storage.service';
+import { setkey_data } from './storage.service';
 
 
 let Auth = fbDB.auth();
@@ -30,7 +30,6 @@ export const createaccount = (data) => Auth.createUserWithEmailAndPassword(data.
 
  export const verifyuser = () => {
     
-    let token = getkey_data({ 'KeyName' : 'auth_token'} )
     return Auth.onIdTokenChanged((user)=>{
         if(user && user.uid){
             setkey_data({ 'KeyName' : 'Id' , 'KeyData' : user.uid })
