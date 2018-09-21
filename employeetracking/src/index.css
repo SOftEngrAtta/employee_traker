@@ -60,8 +60,8 @@ label{font-weight: 500;}
 .btnsecond{color:#f99621;background: #fff;padding:8px 25px;font-size:13px;font-weight: 500;border-radius:2px;border:1px solid #f99621;margin:0px 5px;}
 .btnsecond:hover{background: #f99621;color:#fff;}
 
-.btnCancel{background: #2e5d7b;color:#fff;padding:8px 25px;font-size:13px;font-weight: 500;border-radius:2px;border:1px solid #2e5d7b;margin:0px 5px;}
-.btnCancel:hover{color:#2e5d7b;background: #fff;}
+.btnCancel{background: red;color:#fff;padding:8px 25px;font-size:13px;font-weight: 500;border-radius:2px;border:1px solid red;margin:0px 5px;}
+.btnCancel:hover{color:red;background: #fff;}
 
 
 

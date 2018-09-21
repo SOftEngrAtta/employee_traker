@@ -5,3 +5,87 @@
 .navbar-nav>li>a {margin: 0px; padding: 0px;}
 .img-div{border-radius: 27px; width: 34px; background: #5cb85c; height: 34px; cursor: pointer; margin-top: 5px;}
 img{ border-radius: 50%; width: 30px; height: 30px; margin-top: 2px; margin-left: 2px; }
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    margin-top:13px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {display:none;}
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+
+.nvright{padding-bottom:13px;position: relative;}
+.nvright>div{display: inline-block;vertical-align: middle;}
+.top-nav{position: relative;width:120px;}
+.user-id{padding-left: 10px;max-width: 100px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;color:#fff;font-size:14px;font-weight: 700;margin-top:4px;}
+
+.nvright ul{display:none;position: absolute;top:52px;z-index: 3;left:0px;}
+.nvright:hover ul{display:block;list-style: none;background:#fff;width:120px;
+    box-shadow: 12px 5px 12px #ccc;
+    -webkit-box-shadow: 12px 5px 12px #ccc;
+    -moz-box-shadow: 12px 5px 12px #ccc;
+}
+.nvright ul li{border-bottom:1px solid #ccc;}
+.nvright ul li:last-child{border-bottom: none;}
+.nvright ul li a{display:block;padding:8px 10px;font-size:13px;font-weight: 700;}
+.nvright ul li a:hover{text-decoration: none;background: #283e4a;color:#fff;}
+
+.notifictaions{display:block;margin-top:13px;}
+.notifictaions i{font-size:20px;color:#fff;}
+.notifictaions.active{position: relative;}
+.notifictaions.active {}
+
+
