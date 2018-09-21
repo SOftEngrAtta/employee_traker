@@ -12,3 +12,11 @@
 
 .view-detail{background: #283e4a; color: #fff; padding: 4px 17px; font-size: 13px; font-weight: 500; border-radius: 2px; border: 1px solid #283e4a; margin: 0px 5px;}
 .view-detail:hover{color: #283e4a;background: #fff;}
+
+.card{margin-top: 10px;width: 200px;border: 1px solid #cecece;}
+.card-img-top{height: 180px; width: 100%; display: block; border-radius: 1px; margin-left: 0; margin-top: 0px;}
+.card-grp-hd{text-align: center; font-size: 14px; color: #283e4a;}
+.card-grp-cntnt{text-align: center;font-size: 10px;}
+.card-grp-crtd-brdr{ border-left:1px solid #e0e0e0;}
+.card-grp-crtd-img{ padding: 1px;}
+.card-grp-crtd-img img{ width: 20px;height: 20px;}
