@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import userimg from '../../images/user-icon.png'
+import userimg from '../../images/user-icon.png';
+import cardImage from '../../images/cardImage.svg';
+
 
 // css files
 import './dashboard.css';
@@ -95,7 +97,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedOut'><img src={userimg} /></div>
+                                            <div className='userloggedOut'><img src={userimg} alt="user image"/></div>
                                         </li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
@@ -110,9 +112,7 @@ class Dashboard extends Component {
                                         <li>21 Sep, 2018 2:30PM</li>
                                     </ul>
                                     <ul>
-                                        <li>
-                                            <div className='userloggedOut'><img src={userimg} /></div>
-                                        </li>
+                                        <li> <div className='userloggedOut'><img src={userimg} /></div></li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
                                         <li>19 Sep, 2018 2:30PM</li>
@@ -122,13 +122,99 @@ class Dashboard extends Component {
 
                             </div>
                         </div>
-                        <div class="col-md-4 col-offset-md-1">
+                        <div className="col-md-4 col-offset-md-1">
                             <div className="grps-cls">
                                 <p className="grps-hd">Groups</p>
-                                <hr />
                                 {/* recent groups list detail */}
-                                <div>
-
+                                <div className="row">
+                                    <div className="col-md-6 ">
+                                        <div className="card" >
+                                            <img className="card-img-top" src={ cardImage } alt="Card image cap" />
+                                            <div className="card-body">
+                                                <p className="card-grp-hd">Name : ABC Group</p>
+                                                <div className="row">
+                                                    <div className="col-md-6">
+                                                        <p className="card-grp-cntnt"> created by </p>
+                                                        <p className="card-grp-cntnt"> atta ur rehman </p>
+                                                        
+                                                    </div>
+                                                    <div className="col-md-6 card-grp-crtd-brdr">
+                                                        <p className="card-grp-cntnt"> 21 Sep, 2016</p>
+                                                        <p className="card-grp-cntnt"> 04:53 PM</p>
+                                                    </div>
+                                                </div>
+                                                <div className="card-grp-crtd-img" align="center">
+                                                    <img src={ userimg } alt="user image"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="card" >
+                                            <img className="card-img-top" src={ cardImage } alt="Card image cap" />
+                                            <div className="card-body">
+                                                <p className="card-grp-hd">Name : ABC Group</p>
+                                                <div className="row">
+                                                    <div className="col-md-6">
+                                                        <p className="card-grp-cntnt"> created by </p>
+                                                        <p className="card-grp-cntnt"> atta ur rehman </p>
+                                                        
+                                                    </div>
+                                                    <div className="col-md-6 card-grp-crtd-brdr">
+                                                        <p className="card-grp-cntnt"> 21 Sep, 2016</p>
+                                                        <p className="card-grp-cntnt"> 04:53 PM</p>
+                                                    </div>
+                                                </div>
+                                                <div className="card-grp-crtd-img" align="center">
+                                                    <img src={ userimg } alt="user image"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="card" >
+                                            <img className="card-img-top" src={ cardImage } alt="Card image cap" />
+                                            <div className="card-body">
+                                                <p className="card-grp-hd">Name : ABC Group</p>
+                                                <div className="row">
+                                                    <div className="col-md-6">
+                                                        <p className="card-grp-cntnt"> created by </p>
+                                                        <p className="card-grp-cntnt"> atta ur rehman </p>
+                                                        
+                                                    </div>
+                                                    <div className="col-md-6 card-grp-crtd-brdr">
+                                                        <p className="card-grp-cntnt"> 21 Sep, 2016</p>
+                                                        <p className="card-grp-cntnt"> 04:53 PM</p>
+                                                    </div>
+                                                </div>
+                                                <div className="card-grp-crtd-img" align="center">
+                                                    <img src={ userimg } alt="user image"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="card" >
+                                            <img className="card-img-top" src={ cardImage } alt="Card image cap" />
+                                            <div className="card-body">
+                                                <p className="card-grp-hd">Name : ABC Group</p>
+                                                <div className="row">
+                                                    <div className="col-md-6">
+                                                        <p className="card-grp-cntnt"> created by </p>
+                                                        <p className="card-grp-cntnt"> atta ur rehman </p>
+                                                        
+                                                    </div>
+                                                    <div className="col-md-6 card-grp-crtd-brdr">
+                                                        <p className="card-grp-cntnt"> 21 Sep, 2016</p>
+                                                        <p className="card-grp-cntnt"> 04:53 PM</p>
+                                                    </div>
+                                                </div>
+                                                <div className="card-grp-crtd-img" align="center">
+                                                    <img src={ userimg } alt="user image"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
