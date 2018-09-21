@@ -74,9 +74,9 @@ img{ border-radius: 50%; width: 30px; height: 30px; margin-top: 2px; margin-left
 
 .nvright ul{display:none;position: absolute;top:52px;z-index: 3;left:0px;}
 .nvright:hover ul{display:block;list-style: none;background:#fff;width:120px;
-    box-shadow: 12px 5px 12px #ccc;
+    /* box-shadow: 12px 5px 12px #ccc;
     -webkit-box-shadow: 12px 5px 12px #ccc;
-    -moz-box-shadow: 12px 5px 12px #ccc;
+    -moz-box-shadow: 12px 5px 12px #ccc; */
 }
 .nvright ul li{border-bottom:1px solid #ccc;}
 .nvright ul li:last-child{border-bottom: none;}
