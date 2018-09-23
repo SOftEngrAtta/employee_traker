@@ -10,7 +10,7 @@ export default class UserProfile extends Component {
     render() {
         return (
             <div>
-                <Header />
+                <Header getHistory = { this.props }/>
                 <section className="">
                     <div className="profile-main">
                         <div className="row">

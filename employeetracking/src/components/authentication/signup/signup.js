@@ -13,7 +13,7 @@ import './signup.css'
 
 // services 
 import { createaccount } from '../../../services/authentication.service';
-
+import { saveuserdb } from '../../../services/employee.service'
 
 class SignUp extends Component {
 
@@ -50,7 +50,20 @@ class SignUp extends Component {
             EmailAddress: this.state.EmailAddress,
             Password: this.state.Password
         }).then(success => {
-            SuccessMessage('Account created successfully');
+            debugger
+            this.saveUserRecord({
+                EmailAddress: success.user.email,
+                Id: success.user.uid
+            });
+        }, error => {
+            ErrorMessage('Getting some error, contact with support team' , error);
+        })
+    }
+
+    saveUserRecord(data){
+        saveuserdb(data)
+        .then(res=>{
+            SuccessMessage('User has been created');
         }, error => {
             ErrorMessage('Getting some error, contact with support team');
         })

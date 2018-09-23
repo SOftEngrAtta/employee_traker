@@ -31,3 +31,19 @@ export const uploadImageDB = ( data ) => {
  *  
  */ 
 export const updateprofiledata = (data) => dataDB.ref('users').child(data['Id']).update(data)
+
+
+/***
+ * save create user record functionality 
+ * @param { Object } data
+ * @param { Id Key } data.Key
+ * @param { EmailAddress Key } data.EmailAddress
+ * **/ 
+export const saveuserdb = ( data ) => dataDB.ref('users').child(data['Id']).update(data);
+
+
+/**
+ * check user functionality 
+ * @param { Id Key } data.Key
+ * **/ 
+export const checkuser = (Id) => dataDB.ref('users/'+Id).once('value');

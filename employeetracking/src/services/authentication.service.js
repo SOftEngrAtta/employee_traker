@@ -3,7 +3,7 @@
 import fbDB from '../config/firebasekeys'
 
 // local db storage import  
-import { setkey_data } from './storage.service';
+import { setkey_data , clearhistory} from './storage.service';
 
 
 let Auth = fbDB.auth();
@@ -24,16 +24,11 @@ export const login = (data) => Auth.signInWithEmailAndPassword(data.EmailAddress
 export const createaccount = (data) => Auth.createUserWithEmailAndPassword(data.EmailAddress , data.Password);
 
 /**
- * verfiy user by token functionality 
- * @param { key } key // token
+ * logout user functionality 
  * **/ 
+export const logoutuser = ()=> {
+    clearhistory();  
+    return Auth.signOut()
+};
 
- export const verifyuser = () => {
-    
-    return Auth.onIdTokenChanged((user)=>{
-        if(user && user.uid){
-            setkey_data({ 'KeyName' : 'Id' , 'KeyData' : user.uid })
-            return true 
-        }else return false
-    })
- }
+ 

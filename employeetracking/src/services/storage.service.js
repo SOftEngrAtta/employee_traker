@@ -19,3 +19,8 @@ export const getkey_data = (data)=> localStorage.getItem( data['KeyName'] );
  * @param { KeyName } data.KeyName
  */ 
 export const deletekey_data = (data)=> localStorage.removeItem( data['KeyName'] );
+
+/**
+ * clear local history functionality 
+ * **/ 
+export const clearhistory = ()=> localStorage.clear();  

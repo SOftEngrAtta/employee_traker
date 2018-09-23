@@ -7,7 +7,8 @@ import cardImage from '../../images/cardImage.svg';
 import './dashboard.css';
 
 //service files 
-import { verifyuser } from '../../services/authentication.service';
+import { getkey_data } from '../../services/storage.service';
+import { checkuser } from '../../services/employee.service'
 
 // components
 import Header from '../header/header';
@@ -16,14 +17,20 @@ import Header from '../header/header';
 class Dashboard extends Component {
 
 
-    componentDidMount() {
-        verifyuser();
+    componentWillMount() {
+        let userId = getkey_data({'KeyName' : 'Id'})
+        if(userId){
+            checkuser(userId)
+            .then(res=>{
+                console.log(res);
+            })
+        }else this.props.history.push('/login')
     }
 
     render() {
         return (
             <div className="prnt-dashboard">
-                <Header />
+                <Header getHistory = { this.props }/>
                 <div className="row prnt-dsh">
                     <div className="container-fluid ">
                         <div className="col-md-7">
@@ -33,15 +40,15 @@ class Dashboard extends Component {
                                         <p className="rcnt-hd"> Recent Activities </p>
                                     </div>
                                     <div className="col-md-6" align="right">
-                                        <button class="view-detail">View Detail</button>
+                                        <button className="view-detail">View Detail</button>
                                     </div>
                                 </div>
 
                                 {/* recent logged list detail */}
-                                <div class="list-cls">
+                                <div className="list-cls">
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} /></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img"/></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
@@ -49,7 +56,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedOut'><img src={userimg} /></div>
+                                            <div className='userloggedOut'><img src={userimg} alt="img"/></div>
                                         </li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
@@ -57,7 +64,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} /></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img"/></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
@@ -65,7 +72,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedOut'><img src={userimg} /></div>
+                                            <div className='userloggedOut'><img src={userimg} alt="img"/></div>
                                         </li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
@@ -73,7 +80,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} /></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img"/></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
@@ -81,7 +88,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedOut'><img src={userimg} /></div>
+                                            <div className='userloggedOut'><img src={userimg} alt="img"/></div>
                                         </li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
@@ -89,7 +96,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} /></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img"/></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
@@ -105,14 +112,14 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} /></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img"/></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
                                         <li>21 Sep, 2018 2:30PM</li>
                                     </ul>
                                     <ul>
-                                        <li> <div className='userloggedOut'><img src={userimg} /></div></li>
+                                        <li> <div className='userloggedOut'><img src={userimg} alt="img"/></div></li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
                                         <li>19 Sep, 2018 2:30PM</li>

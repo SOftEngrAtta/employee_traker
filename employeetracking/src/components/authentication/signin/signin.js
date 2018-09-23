@@ -15,6 +15,7 @@ import './signin.css';
  
 //service
 import { login } from '../../../services/authentication.service';
+import { setkey_data } from '../../../services/storage.service';
 
 class SignIn extends Component {
 
@@ -55,6 +56,7 @@ class SignIn extends Component {
         login({EmailAddress : this.state.EmailAddress,Password : this.state.Password})
         .then(success=>{
             SuccessMessage('Login successfully')
+            setkey_data({'KeyName': 'Id' , 'KeyData': success.user.uid});
             this.props.history.push('/dashboard')
         },error=>{
             ErrorMessage('Invalid username and password');
