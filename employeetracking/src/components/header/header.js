@@ -15,13 +15,7 @@ import './header.css'
 
 class Header extends Component {
 
-    logout(){
-        logoutuser()
-        .then(res=>{ 
-            debugger
-            this.props.getHistory.history.push('/login')
-        })
-    }
+    logout(){ logoutuser().then(res=>{ this.props.getHistory.history.push('/login') }) }
 
     render() {
         return (

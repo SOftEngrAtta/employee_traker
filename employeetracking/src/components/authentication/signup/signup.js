@@ -50,7 +50,6 @@ class SignUp extends Component {
             EmailAddress: this.state.EmailAddress,
             Password: this.state.Password
         }).then(success => {
-            debugger
             this.saveUserRecord({
                 EmailAddress: success.user.email,
                 Id: success.user.uid
