@@ -1,23 +1,55 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+// import images file
+import profileimg from '../../images/user-icon.png'
+
 // components 
 import Header from '../header/header';
 import './profile.css'
+
+
 export default class UserProfile extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {file: '',imagePreviewUrl: ''};
+    }
+
+    _handleImageChange(e) {
+        e.preventDefault();
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        reader.onloadend = () => {
+            this.setState({
+                file: file,
+                imagePreviewUrl: reader.result
+            });
+        }
+
+        reader.readAsDataURL(file)
+    }
 
     render() {
+        let { imagePreviewUrl } = this.state;
+        
+        let $imagePreview = null;
+        if (imagePreviewUrl) $imagePreview = (<img src={imagePreviewUrl} className="imgprofile" />);
+        else $imagePreview = (<img src={ profileimg } alt="img" className="imgprofile"/>)
+        
+
         return (
             <div>
-                <Header getHistory = { this.props }/>
+                <Header getHistory={this.props} />
                 <section className="">
                     <div className="profile-main">
                         <div className="row">
                             <div className="col-md-3">
                                 <div className="profile-upload">
-                                    <input type="file" />
-                                    <img src="/images/user-icon.png" alt="" className="imgprofile" />
+                                    <input type="file" onChange={(e) => this._handleImageChange(e)} />
+                                    {$imagePreview}
                                 </div>
                             </div>
                             <div className="col-md-3">
@@ -59,7 +91,7 @@ export default class UserProfile extends Component {
                                     <Link to="/dashboard" className="sec-padding-xxsmall">Go Back.</Link>
                                 </div>
                                 <div className="col-md-6 text-right">
-                                    <button className="btnmain">Submit</button> <button class="btnCancel">Cancel</button>
+                                    <button className="btnmain">Submit</button> <button className="btnCancel">Cancel</button>
                                 </div>
                             </div>
                         </div>

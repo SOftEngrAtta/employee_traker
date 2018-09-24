@@ -40,7 +40,7 @@ class Header extends Component {
                         <div className="col-md-2">
                             <div className="nvright">
                                 <div className="img-div">
-                                    <img src={userimg} alt="logo" />
+                                    <img className="usr-dp" src={userimg} alt="logo" />
                                 </div>
                                 <div className="user-id" title="Atta">Atta</div>
                                 <ul>
