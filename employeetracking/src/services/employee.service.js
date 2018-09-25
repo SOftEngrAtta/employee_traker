@@ -2,7 +2,6 @@
 import fbDB from '../config/firebasekeys'
 
 let dataDB = fbDB.database();
-let storageRef  = fbDB.storage().ref();
 
 /***
  * upload image functionality 
@@ -10,8 +9,13 @@ let storageRef  = fbDB.storage().ref();
  * @param { ImageDB } data.ImageDB
  * **/ 
 export const uploadImageDB = ( data ) => {
-    
-
+    let storageUrl = 'images/';
+    let storageRef = fbDB.storage().ref(storageUrl + data.name);
+    return storageRef.put(data)
+    .then(res=>{
+        let getUrl = fbDB.storage().ref().child(storageUrl + data.name);
+        return getUrl.getDownloadURL()
+    })
 }
 
 
@@ -19,7 +23,7 @@ export const uploadImageDB = ( data ) => {
  * update user profile functionality 
  * @param {Object} data
  * @param {Id Key} data.Id  
- * @param {ImageName Key} data.ImageName 
+ * @param {ImageUrl Key} data.ImageName 
  * @param {FullName Key} data.FullName 
  * @param {Age Key} data.Age 
  * @param {Email Address Key} data.EmailAddress 

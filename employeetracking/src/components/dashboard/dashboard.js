@@ -48,7 +48,7 @@ class Dashboard extends Component {
                                 <div className="list-cls">
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img"/></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img"/></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
@@ -56,7 +56,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedOut'><img src={userimg} alt="img"/></div>
+                                            <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img"/></div>
                                         </li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
@@ -64,7 +64,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img"/></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img"/></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
@@ -72,7 +72,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedOut'><img src={userimg} alt="img"/></div>
+                                            <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img"/></div>
                                         </li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
@@ -80,7 +80,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img"/></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img"/></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
@@ -88,7 +88,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedOut'><img src={userimg} alt="img"/></div>
+                                            <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img"/></div>
                                         </li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
@@ -96,7 +96,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img"/></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img"/></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
@@ -104,7 +104,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedOut'><img src={userimg} alt="user image"/></div>
+                                            <div className='userloggedOut'><img src={userimg} alt="user image" className="usr-img"/></div>
                                         </li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
@@ -112,14 +112,14 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img"/></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img"/></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
                                         <li>21 Sep, 2018 2:30PM</li>
                                     </ul>
                                     <ul>
-                                        <li> <div className='userloggedOut'><img src={userimg} alt="img"/></div></li>
+                                        <li> <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img"/></div></li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
                                         <li>19 Sep, 2018 2:30PM</li>
