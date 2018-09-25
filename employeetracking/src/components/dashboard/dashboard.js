@@ -33,13 +33,13 @@ class Dashboard extends Component {
                 <Header getHistory = { this.props }/>
                 <div className="row prnt-dsh">
                     <div className="container-fluid ">
-                        <div className="col-md-7">
+                        <div className="col-lg-7 col-md-7 col-sm-8">
                             <div className="rcnt-acts">
                                 <div className="row">
-                                    <div className="col-md-6">
+                                    <div className="col-md-6 col-sm-6">
                                         <p className="rcnt-hd"> Recent Activities </p>
                                     </div>
-                                    <div className="col-md-6" align="right">
+                                    <div className="col-md-6 col-sm-6" align="right">
                                         <button className="view-detail">View Detail</button>
                                     </div>
                                 </div>
@@ -129,7 +129,7 @@ class Dashboard extends Component {
 
                             </div>
                         </div>
-                        <div className="col-md-4 col-offset-md-1">
+                        <div className="col-lg-4 col-md-5 col-sm-4">
                             <div className="grps-cls">
                                 <p className="grps-hd">Groups</p>
                                 {/* recent groups list detail */}
@@ -140,12 +140,12 @@ class Dashboard extends Component {
                                             <div className="card-body">
                                                 <p className="card-grp-hd">Name : ABC Group</p>
                                                 <div className="row">
-                                                    <div className="col-md-6">
+                                                    <div className="col-md-6 col-sm-6">
                                                         <p className="card-grp-cntnt"> created by </p>
                                                         <p className="card-grp-cntnt"> atta ur rehman </p>
                                                         
                                                     </div>
-                                                    <div className="col-md-6 card-grp-crtd-brdr">
+                                                    <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
                                                         <p className="card-grp-cntnt"> 21 Sep, 2016</p>
                                                         <p className="card-grp-cntnt"> 04:53 PM</p>
                                                     </div>
@@ -162,12 +162,12 @@ class Dashboard extends Component {
                                             <div className="card-body">
                                                 <p className="card-grp-hd">Name : ABC Group</p>
                                                 <div className="row">
-                                                    <div className="col-md-6">
+                                                    <div className="col-md-6 col-sm-6">
                                                         <p className="card-grp-cntnt"> created by </p>
                                                         <p className="card-grp-cntnt"> atta ur rehman </p>
                                                         
                                                     </div>
-                                                    <div className="col-md-6 card-grp-crtd-brdr">
+                                                    <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
                                                         <p className="card-grp-cntnt"> 21 Sep, 2016</p>
                                                         <p className="card-grp-cntnt"> 04:53 PM</p>
                                                     </div>
@@ -184,12 +184,12 @@ class Dashboard extends Component {
                                             <div className="card-body">
                                                 <p className="card-grp-hd">Name : ABC Group</p>
                                                 <div className="row">
-                                                    <div className="col-md-6">
+                                                    <div className="col-md-6 col-sm-6">
                                                         <p className="card-grp-cntnt"> created by </p>
                                                         <p className="card-grp-cntnt"> atta ur rehman </p>
                                                         
                                                     </div>
-                                                    <div className="col-md-6 card-grp-crtd-brdr">
+                                                    <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
                                                         <p className="card-grp-cntnt"> 21 Sep, 2016</p>
                                                         <p className="card-grp-cntnt"> 04:53 PM</p>
                                                     </div>
@@ -206,12 +206,12 @@ class Dashboard extends Component {
                                             <div className="card-body">
                                                 <p className="card-grp-hd">Name : ABC Group</p>
                                                 <div className="row">
-                                                    <div className="col-md-6">
+                                                    <div className="col-md-6 col-sm-6">
                                                         <p className="card-grp-cntnt"> created by </p>
                                                         <p className="card-grp-cntnt"> atta ur rehman </p>
                                                         
                                                     </div>
-                                                    <div className="col-md-6 card-grp-crtd-brdr">
+                                                    <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
                                                         <p className="card-grp-cntnt"> 21 Sep, 2016</p>
                                                         <p className="card-grp-cntnt"> 04:53 PM</p>
                                                     </div>

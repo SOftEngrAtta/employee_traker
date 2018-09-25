@@ -23,21 +23,21 @@ class Header extends Component {
             <div className="nav-main prnt-navbar">
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-6 col-sm-5">
                             <Navbar.Brand>
                                 <Link to="/dashboard" className="hd-hr">Employee Tracker</Link>
                             </Navbar.Brand>
                         </div>
-                        <div className="col-md-3 text-right">
+                        <div className="col-md-3 col-sm-2 text-right">
                         <a href="/notification" className="notifictaions"><i className="fa fa-bell-o" aria-hidden="true"></i></a>
                         </div>
-                        <div className="col-md-1 text-right">
+                        <div className="col-md-1 col-sm-2 text-right">
                             <label className="switch">
                                 <input type="checkbox" />
                                 <span className="slider round"></span>
                             </label>
                         </div>
-                        <div className="col-md-2">
+                        <div className="col-md-2 col-sm-3">
                             <div className="nvright">
                                 <div className="img-div">
                                     <img className="usr-dp" src={userimg} alt="logo" />
