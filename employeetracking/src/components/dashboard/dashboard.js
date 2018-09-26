@@ -7,7 +7,7 @@ import cardImage from '../../images/cardImage.svg';
 import './dashboard.css';
 
 //service files 
-import { getkey_data } from '../../services/storage.service';
+import { getkey_data , setkey_data } from '../../services/storage.service';
 import { checkuser } from '../../services/employee.service'
 
 // components
@@ -16,13 +16,22 @@ import Header from '../header/header';
 
 class Dashboard extends Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            userinfo : {}
+        }
+    }
 
     componentWillMount() {
         let userId = getkey_data({'KeyName' : 'Id'})
         if(userId){
             checkuser(userId)
             .then(res=>{
-                console.log(res);
+                this.setState({
+                    userinfo : res.val()
+                })
+                setkey_data({'KeyName':'customerinfo' , 'KeyData' : JSON.stringify(res.val())})
             })
         }else this.props.history.push('/login')
     }
