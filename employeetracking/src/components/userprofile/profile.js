@@ -128,7 +128,7 @@ export default class UserProfile extends Component {
                             </div>
                             <div className="col-md-6">
                                 <label>Email Address</label>
-                                <input type="email" placeholder="Enter Email address" onChange={this._handleInputField.bind(this , 'EmailAddress')} value={ this.state.info.EmailAddress } disabled="true"/>
+                                <input type="email" placeholder="Enter Email address" onChange={this._handleInputField.bind(this , 'EmailAddress')} value={ this.state.info.EmailAddress } disabled/>
                                 <span className="hint">(e.g : abc@gmail.com)</span>
                             </div>
                             <div className="col-md-6">
