@@ -50,4 +50,4 @@ export const saveuserdb = ( data ) => dataDB.ref('users').child(data['Id']).upda
  * check user functionality 
  * @param { Id Key } data.Key
  * **/ 
-export const checkuser = (Id) => dataDB.ref('users/'+Id).once('value');
+export const checkuser = (Id) => {return dataDB.ref('users/'+Id).once('value')};

@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import profileimg from '../../images/user-icon.png';
 
 // import services 
-import { uploadImageDB } from '../../services/employee.service';
-import { getkey_data } from '../../services/storage.service';
+import { uploadImageDB, checkuser } from '../../services/employee.service';
+import { getkey_data , setkey_data } from '../../services/storage.service';
 
 // components 
 import Header from '../header/header';
@@ -37,8 +37,18 @@ export default class UserProfile extends Component {
     }
 
     componentDidMount(){
-        userinfo['Id'] = getkey_data({'KeyName' : 'Id'});
-        this.setState({info : userinfo})
+        userinfo['Id'] = this.props.match.params.id;
+        checkuser(userinfo['Id'])
+        .then(res=>{
+            userinfo['FullName'] = (res.val() && res.val().FullName)?res.val().FullName:'';
+            userinfo['Age'] = (res.val() && res.val().Age)?res.val().Age:0;
+            userinfo['ContactNo'] = (res.val() && res.val().ContactNo)?res.val().ContactNo:'';
+            userinfo['EmailAddress'] = (res.val() && res.val().EmailAddress)?res.val().EmailAddress:'';
+            userinfo['ImageUrl'] = (res.val() && res.val().ImageUrl)?res.val().ImageUrl:'';
+            userinfo['Address'] = (res.val() && res.val().Address)?res.val().Address:'';
+            this.setState({info : userinfo})
+        })
+
     }
 
     _handleInputField(field , event) { 
@@ -70,6 +80,7 @@ export default class UserProfile extends Component {
             return updateprofiledata(this.state.info);
         })
         .then(res=>{
+            setkey_data({ 'KeyName' : 'customerinfo','KeyData' : JSON.stringify(this.state.info) })
             SuccessMessage('Profile Uploaded Successfully');
         },error=>{
             if(error && error.message) ErrorMessage('Error: '+error.message);
@@ -82,13 +93,13 @@ export default class UserProfile extends Component {
 
         let $imagePreview = null;
         if (imagePreviewUrl) $imagePreview = (<img src={imagePreviewUrl} className="imgprofile" />);
-        else $imagePreview = (<img src={profileimg} alt="img" className="imgprofile" />)
+        else $imagePreview = (<img src={( this.state.info.ImageUrl )? this.state.info.ImageUrl : profileimg} alt="img" className="imgprofile" />)
 
 
         return (
             <div>
                 <DisplayMessage timeduration={ 2000 }/>
-                <Header getHistory={this.props} />
+                <Header getHistory={this.props}/>
                 <section className="">
                     <div className="profile-main">
                         <div className="row">
@@ -117,7 +128,7 @@ export default class UserProfile extends Component {
                             </div>
                             <div className="col-md-6">
                                 <label>Email Address</label>
-                                <input type="email" placeholder="Enter Email address" onChange={this._handleInputField.bind(this , 'EmailAddress')} value={ this.state.info.EmailAddress }/>
+                                <input type="email" placeholder="Enter Email address" onChange={this._handleInputField.bind(this , 'EmailAddress')} value={ this.state.info.EmailAddress } disabled/>
                                 <span className="hint">(e.g : abc@gmail.com)</span>
                             </div>
                             <div className="col-md-6">
