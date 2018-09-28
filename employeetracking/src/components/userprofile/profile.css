@@ -10,4 +10,17 @@
 
 
 
-
+.map-cls{
+    position: relative;
+    height: 400px;
+    width: 400px;    
+}
+.map-cls {margin-left: 60px;}
+.map-cls div>div>div{ bottom: 65px; }
+.gmnoprint{
+    margin: 10px;
+    user-select: none;
+    position: absolute;
+    bottom: 107px;
+    right: 132px;
+}

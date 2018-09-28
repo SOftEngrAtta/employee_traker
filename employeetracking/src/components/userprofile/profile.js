@@ -6,10 +6,11 @@ import profileimg from '../../images/user-icon.png';
 
 // import services 
 import { uploadImageDB, checkuser } from '../../services/employee.service';
-import { getkey_data , setkey_data } from '../../services/storage.service';
+import { setkey_data } from '../../services/storage.service';
 
 // components 
 import Header from '../header/header';
+import MapLocation from '../maplocation/location';
 import './profile.css'
 import { updateprofiledata } from '../../services/employee.service';
 import DisplayMessage, { ErrorMessage, SuccessMessage } from '../../shared/responsemsg';
@@ -100,7 +101,7 @@ export default class UserProfile extends Component {
             <div>
                 <DisplayMessage timeduration={ 2000 }/>
                 <Header getHistory={this.props}/>
-                <section className="">
+                <section >
                     <div className="profile-main">
                         <div className="row">
                             <div className="col-md-3">
@@ -151,6 +152,9 @@ export default class UserProfile extends Component {
                                     <button className="btnmain" onClick={ this.updateprofile.bind(this) }>Submit</button> <button className="btnCancel">Cancel</button>
                                 </div>
                             </div>
+                        </div>
+                        <div className="row map-cls" align="center">
+                            <MapLocation />
                         </div>
                     </div>
                 </section>
