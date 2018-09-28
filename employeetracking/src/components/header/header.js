@@ -38,7 +38,18 @@ class Header extends Component {
             }
         },1000)
     }
+        
+    /* Open the sidenav */
+    openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
 
+    }
+
+    /* Close/hide the sidenav */
+    closeNav(){
+        document.getElementById("mySidenav").style.width = "0";
+    }
+         
     componentDidMount(){
         
         let customerinfo = getkey_data({'KeyName':'customerinfo'});
@@ -69,40 +80,61 @@ class Header extends Component {
                 <DisplayMessage timeduration={ 2000 }/>
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-6 col-sm-5">
+                        <div className="col-md-6 col-sm-5 col-xs-12">
                             <Navbar.Brand>
                                 <Link to="/dashboard" className="hd-hr">Employee Tracker</Link>
+                                
                             </Navbar.Brand>
+                            <span onClick={this.openNav} className="rspnov"><i className="fa fa-bars"></i></span>
                         </div>
-                        <div className="col-md-3 col-sm-2 text-right">
-                        <a href="/notification" className="notifictaions"><i className="fa fa-bell-o" aria-hidden="true"></i></a>
+                        <div className="col-md-3 col-sm-2 hidden-xs text-right">
+                            <a href="/notification" className="notifictaions"><i className="fa fa-bell-o" aria-hidden="true"></i></a>
                         </div>
-                        <div className="col-md-1 col-sm-2 text-right">
+                        <div className="col-md-1 col-sm-2 col-xs-2 hidden-xs text-right">
                             <label className="switch">
                                 <input type="checkbox" />
                                 <span className="slider round"></span>
                             </label>
                         </div>
                         <div className="col-md-2 col-sm-3">
-                            <div className="nvright">
+                        
+                            <div className="nvright hidden-xs">
                                 <div className="img-div">
                                     <img className="usr-dp" src=
-                                        { 
-                                            (this.state.userinfo && this.state.userinfo.ImageUrl) ? 
-                                            this.state.userinfo.ImageUrl : userimg 
+                                        {
+                                            (this.state.userinfo && this.state.userinfo.ImageUrl) ?
+                                                this.state.userinfo.ImageUrl : userimg
                                         } alt="logo" />
                                 </div>
-                                <div className="user-id" title={ this.state.userinfo.FullName }>
-                                    { this.state.userinfo.FullName }
+                                <div className="user-id" title={this.state.userinfo.FullName}>
+                                    {this.state.userinfo.FullName}
                                 </div>
                                 <ul>
-                                    <li><Link to={'/userprofile/'+uid} ><i className="fa fa-user" aria-hidden="true"></i> Profile</Link></li>
-                                    <li><a href="javascript:;" onClick={ this.logout.bind(this) }><i className="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                                    <li><Link to={'/userprofile/' + uid} ><i className="fa fa-user" aria-hidden="true"></i> Profile</Link></li>
+                                    <li><a href="javascript:;" onClick={this.logout.bind(this)}><i className="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div id="mySidenav" className="sidenav">
+                    <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
+                    <div className="img-div img-div-respo">
+                        <img className="usr-dp" src=
+                            {
+                                (this.state.userinfo && this.state.userinfo.ImageUrl) ?
+                                    this.state.userinfo.ImageUrl : userimg
+                            } alt="logo" />
+                    </div>
+                    <div className="user-id user-id-respo" title={this.state.userinfo.FullName}>
+                        {this.state.userinfo.FullName}
+                    </div>
+                    <Link to={'/userprofile/' + uid} ><i className="fa fa-user" aria-hidden="true"></i> Profile</Link>
+                    <label class="switch switch2"><input type="checkbox"/><span class="slider round"></span></label>
+                    <a href="javascript:;" onClick={this.logout.bind(this)}><i className="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+                    
+                </div>
+
             </div>
         )
     }
