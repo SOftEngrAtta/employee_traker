@@ -15,9 +15,12 @@ import './profile.css'
 import { updateprofiledata } from '../../services/employee.service';
 import DisplayMessage, { ErrorMessage, SuccessMessage } from '../../shared/responsemsg';
 
+
 var userinfo = {} ; // user data variable { FullName : '' , Age : '' , EmailAddress : '' , ContactNo: 0, Address : ''}
 
+
 export default class UserProfile extends Component { 
+
 
     constructor(props) {
         super(props);
@@ -31,12 +34,16 @@ export default class UserProfile extends Component {
                 EmailAddress: '',
                 ContactNo: 0,
                 Address: '',
-                ImageUrl : '' 
-            }
+                ImageUrl : '', 
+                latitude: 0,
+                longitude: 0
+            },
         };
         userinfo = Object.assign({},this.state.info);
+        this.getlocation = this.getlocation.bind(this);
+        this.showPosition = this.showPosition.bind(this);
     }
-
+    
     componentDidMount(){
         userinfo['Id'] = this.props.match.params.id;
         checkuser(userinfo['Id'])
@@ -49,9 +56,22 @@ export default class UserProfile extends Component {
             userinfo['Address'] = (res.val() && res.val().Address)?res.val().Address:'';
             this.setState({info : userinfo})
         })
+        this.getlocation();
 
     }
 
+    getlocation(){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this.showPosition);
+        } else { ErrorMessage('Geolocation is not supported by this browser.') }
+    }
+
+    showPosition(position){
+        userinfo['latitude'] = position.coords.latitude;
+        userinfo['longitude'] = position.coords.longitude;
+        this.setState({info : userinfo})
+    }
+    
     _handleInputField(field , event) { 
         userinfo[field] = event.target.value;
         this.setState({ info : userinfo })
@@ -91,8 +111,8 @@ export default class UserProfile extends Component {
 
     render() {
         let { imagePreviewUrl } = this.state;
-
         let $imagePreview = null;
+        
         if (imagePreviewUrl) $imagePreview = (<img src={imagePreviewUrl} className="imgprofile" />);
         else $imagePreview = (<img src={( this.state.info.ImageUrl )? this.state.info.ImageUrl : profileimg} alt="img" className="imgprofile" />)
 
@@ -102,6 +122,7 @@ export default class UserProfile extends Component {
                 <DisplayMessage timeduration={ 2000 }/>
                 <Header getHistory={this.props}/>
                 <section >
+
                     <div className="profile-main">
                         <div className="row">
                             <div className="col-md-3">
@@ -153,9 +174,15 @@ export default class UserProfile extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="row map-cls" align="center">
-                            <MapLocation />
-                        </div>
+                        {
+                            ( this.state.info.latitude && this.state.info.longitude )?
+                            <div className="row map-cls" align="center">
+                                <MapLocation latitude={ this.state.info.latitude } longitude={ this.state.info.longitude }/>
+                            </div>: null
+
+                        }
+
+                        
                     </div>
                 </section>
             </div>
