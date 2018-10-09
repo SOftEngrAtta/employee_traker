@@ -130,7 +130,7 @@ class Header extends Component {
                         {this.state.userinfo.FullName}
                     </div>
                     <Link to={'/userprofile/' + uid} ><i className="fa fa-user" aria-hidden="true"></i> Profile</Link>
-                    <label class="switch switch2"><input type="checkbox"/><span class="slider round"></span></label>
+                    <label className="switch switch2"><input type="checkbox"/><span className="slider round"></span></label>
                     <a href="javascript:;" onClick={this.logout.bind(this)}><i className="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
                     
                 </div>

@@ -34,9 +34,11 @@ export default class UserProfile extends Component {
                 EmailAddress: '',
                 ContactNo: 0,
                 Address: '',
-                ImageUrl : '', 
-                latitude: 0,
-                longitude: 0
+                ImageUrl : '',
+                Location: {
+                    latitude: 0,
+                    longitude: 0 
+                } 
             },
         };
         userinfo = Object.assign({},this.state.info);
@@ -54,6 +56,9 @@ export default class UserProfile extends Component {
             userinfo['EmailAddress'] = (res.val() && res.val().EmailAddress)?res.val().EmailAddress:'';
             userinfo['ImageUrl'] = (res.val() && res.val().ImageUrl)?res.val().ImageUrl:'';
             userinfo['Address'] = (res.val() && res.val().Address)?res.val().Address:'';
+            userinfo['Location']['latitude'] = (res.val() && res.val().Location && res.val().Location.latitude)?res.val().Location.latitude:'';
+            userinfo['Location']['longitude'] = (res.val() && res.val().Location && res.val().Location.longitude)?res.val().Location.longitude:'';
+
             this.setState({info : userinfo})
         })
         this.getlocation();
@@ -67,13 +72,20 @@ export default class UserProfile extends Component {
     }
 
     showPosition(position){
-        userinfo['latitude'] = position.coords.latitude;
-        userinfo['longitude'] = position.coords.longitude;
+        if(userinfo['Location'] && userinfo['Location']['latitude'] && userinfo['Location']['longitude']){
+            console.log('user location updated already');
+        }else{
+            userinfo['Location']['latitude'] = position.coords.latitude;
+            userinfo['Location']['longitude'] = position.coords.longitude;
+        }
+
         this.setState({info : userinfo})
     }
     
     _handleInputField(field , event) { 
-        userinfo[field] = event.target.value;
+        if(field == 'longitude' || field == 'latitude' ){
+            userinfo['Location'][field] = event.target.value;     
+        }else userinfo[field] = event.target.value;
         this.setState({ info : userinfo })
     }
 
@@ -94,19 +106,32 @@ export default class UserProfile extends Component {
     }
 
     updateprofile(){
-        uploadImageDB(this.state.file)
-        .then(res=>{
-            userinfo['ImageUrl'] = res
-            this.setState({info : userinfo});
-            return updateprofiledata(this.state.info);
-        })
-        .then(res=>{
-            setkey_data({ 'KeyName' : 'customerinfo','KeyData' : JSON.stringify(this.state.info) })
-            SuccessMessage('Profile Uploaded Successfully');
-        },error=>{
-            if(error && error.message) ErrorMessage('Error: '+error.message);
-            else ErrorMessage('something went wrong');
-        })
+        
+        if(this.state.file){
+            uploadImageDB(this.state.file)
+            .then(res=>{
+                userinfo['ImageUrl'] = res
+                this.setState({info : userinfo});
+                return updateprofiledata(this.state.info);
+            })
+            .then(res=>{
+                setkey_data({ 'KeyName' : 'customerinfo','KeyData' : JSON.stringify(this.state.info) })
+                SuccessMessage('Profile Uploaded Successfully');
+            },error=>{
+                if(error && error.message) ErrorMessage('Error: '+error.message);
+                else ErrorMessage('something went wrong');
+            })
+        }else{
+            updateprofiledata(this.state.info)
+            .then(res=>{
+                setkey_data({ 'KeyName' : 'customerinfo','KeyData' : JSON.stringify(this.state.info) })
+                SuccessMessage('Profile Uploaded Successfully');
+            },error=>{
+                if(error && error.message) ErrorMessage('Error: '+error.message);
+                else ErrorMessage('something went wrong');
+            })
+        }
+
     }
 
     render() {
@@ -150,7 +175,7 @@ export default class UserProfile extends Component {
                             </div>
                             <div className="col-md-6">
                                 <label>Email Address</label>
-                                <input type="email" placeholder="Enter Email address" onChange={this._handleInputField.bind(this , 'EmailAddress')} value={ this.state.info.EmailAddress } disabled/>
+                                <input value={ this.state.info.EmailAddress } disabled/>
                                 <span className="hint">(e.g : abc@gmail.com)</span>
                             </div>
                             <div className="col-md-6">
@@ -163,6 +188,17 @@ export default class UserProfile extends Component {
                                 <input type="text" placeholder="Address" onChange={ this._handleInputField.bind(this , 'Address') } value={ this.state.info.Address }/>
                                 <span className="hint"></span>
                             </div>
+                            <div className="col-md-6">
+                                <label>Latitude</label>
+                                <input value={ this.state.info.Location.latitude } disabled/>
+                                <span className="hint">(e.g : 24.656)</span>
+                            </div>
+                            <div className="col-md-6">
+                                <label>Longitude</label>
+                                <input value={ this.state.info.Location.longitude } disabled/>
+                                <span className="hint">(e.g : 65.698)</span>
+                            </div>
+                            
                         </div>
                         <div className="sec-padding-xsmall bordertop sec-margin-xxsmall">
                             <div className="row">
@@ -175,9 +211,9 @@ export default class UserProfile extends Component {
                             </div>
                         </div>
                         {
-                            ( this.state.info.latitude && this.state.info.longitude )?
+                            ( this.state.info.Location.latitude && this.state.info.Location.longitude )?
                             <div className="row map-cls" align="center">
-                                <MapLocation latitude={ this.state.info.latitude } longitude={ this.state.info.longitude }/>
+                                <MapLocation latitude={ this.state.info.Location.latitude } longitude={ this.state.info.Location.longitude }/>
                             </div>: null
 
                         }
