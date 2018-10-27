@@ -8,6 +8,7 @@
     "google-maps-react": "^2.0.2",
     "history": "^4.7.2",
     "react": "^16.5.0",
+    "react-autocomplete": "^1.8.1",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.5.0",
     "react-encrypt": "^1.0.1",

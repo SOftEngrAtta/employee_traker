@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import Autocomplete from 'react-autocomplete';
 // import images file
 import profileimg from '../../images/user-icon.png';
 
@@ -16,10 +16,11 @@ import { updateprofiledata } from '../../services/employee.service';
 import DisplayMessage, { ErrorMessage, SuccessMessage } from '../../shared/responsemsg';
 
 
-var userinfo = {} ; // user data variable { FullName : '' , Age : '' , EmailAddress : '' , ContactNo: 0, Address : ''}
+var userinfo = {}; // user data variable { FullName : '' , Age : '' , EmailAddress : '' , ContactNo: 0, Address : ''}
 
 
-export default class UserProfile extends Component { 
+export default class UserProfile extends Component {
+
 
 
     constructor(props) {
@@ -28,65 +29,65 @@ export default class UserProfile extends Component {
             file: '',
             imagePreviewUrl: '',
             info: {
-                Id : '',
+                Id: '',
                 FullName: '',
                 Age: 0,
                 EmailAddress: '',
                 ContactNo: 0,
                 Address: '',
-                ImageUrl : '',
+                ImageUrl: '',
                 Location: {
                     latitude: 0,
-                    longitude: 0 
-                } 
+                    longitude: 0
+                }
             },
         };
-        userinfo = Object.assign({},this.state.info);
+        userinfo = Object.assign({}, this.state.info);
         this.getlocation = this.getlocation.bind(this);
         this.showPosition = this.showPosition.bind(this);
     }
-    
-    componentDidMount(){
+
+    componentDidMount() {
         userinfo['Id'] = this.props.match.params.id;
         checkuser(userinfo['Id'])
-        .then(res=>{
-            userinfo['FullName'] = (res.val() && res.val().FullName)?res.val().FullName:'';
-            userinfo['Age'] = (res.val() && res.val().Age)?res.val().Age:0;
-            userinfo['ContactNo'] = (res.val() && res.val().ContactNo)?res.val().ContactNo:'';
-            userinfo['EmailAddress'] = (res.val() && res.val().EmailAddress)?res.val().EmailAddress:'';
-            userinfo['ImageUrl'] = (res.val() && res.val().ImageUrl)?res.val().ImageUrl:'';
-            userinfo['Address'] = (res.val() && res.val().Address)?res.val().Address:'';
-            userinfo['Location']['latitude'] = (res.val() && res.val().Location && res.val().Location.latitude)?res.val().Location.latitude:'';
-            userinfo['Location']['longitude'] = (res.val() && res.val().Location && res.val().Location.longitude)?res.val().Location.longitude:'';
+            .then(res => {
+                userinfo['FullName'] = (res.val() && res.val().FullName) ? res.val().FullName : '';
+                userinfo['Age'] = (res.val() && res.val().Age) ? res.val().Age : 0;
+                userinfo['ContactNo'] = (res.val() && res.val().ContactNo) ? res.val().ContactNo : '';
+                userinfo['EmailAddress'] = (res.val() && res.val().EmailAddress) ? res.val().EmailAddress : '';
+                userinfo['ImageUrl'] = (res.val() && res.val().ImageUrl) ? res.val().ImageUrl : '';
+                userinfo['Address'] = (res.val() && res.val().Address) ? res.val().Address : '';
+                userinfo['Location']['latitude'] = (res.val() && res.val().Location && res.val().Location.latitude) ? res.val().Location.latitude : '';
+                userinfo['Location']['longitude'] = (res.val() && res.val().Location && res.val().Location.longitude) ? res.val().Location.longitude : '';
 
-            this.setState({info : userinfo})
-        })
+                this.setState({ info: userinfo })
+            })
         this.getlocation();
 
     }
 
-    getlocation(){
+    getlocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(this.showPosition);
         } else { ErrorMessage('Geolocation is not supported by this browser.') }
     }
 
-    showPosition(position){
-        if(userinfo['Location'] && userinfo['Location']['latitude'] && userinfo['Location']['longitude']){
+    showPosition(position) {
+        if (userinfo['Location'] && userinfo['Location']['latitude'] && userinfo['Location']['longitude']) {
             console.log('user location updated already');
-        }else{
+        } else {
             userinfo['Location']['latitude'] = position.coords.latitude;
             userinfo['Location']['longitude'] = position.coords.longitude;
         }
 
-        this.setState({info : userinfo})
+        this.setState({ info: userinfo })
     }
-    
-    _handleInputField(field , event) { 
-        if(field == 'longitude' || field == 'latitude' ){
-            userinfo['Location'][field] = event.target.value;     
-        }else userinfo[field] = event.target.value;
-        this.setState({ info : userinfo })
+
+    _handleInputField(field, event) {
+        if (field == 'longitude' || field == 'latitude') {
+            userinfo['Location'][field] = event.target.value;
+        } else userinfo[field] = event.target.value;
+        this.setState({ info: userinfo })
     }
 
     _handleImageChange(e) {
@@ -105,31 +106,31 @@ export default class UserProfile extends Component {
         reader.readAsDataURL(file)
     }
 
-    updateprofile(){
-        
-        if(this.state.file){
+    updateprofile() {
+
+        if (this.state.file) {
             uploadImageDB(this.state.file)
-            .then(res=>{
-                userinfo['ImageUrl'] = res
-                this.setState({info : userinfo});
-                return updateprofiledata(this.state.info);
-            })
-            .then(res=>{
-                setkey_data({ 'KeyName' : 'customerinfo','KeyData' : JSON.stringify(this.state.info) })
-                SuccessMessage('Profile Uploaded Successfully');
-            },error=>{
-                if(error && error.message) ErrorMessage('Error: '+error.message);
-                else ErrorMessage('something went wrong');
-            })
-        }else{
+                .then(res => {
+                    userinfo['ImageUrl'] = res
+                    this.setState({ info: userinfo });
+                    return updateprofiledata(this.state.info);
+                })
+                .then(res => {
+                    setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(this.state.info) })
+                    SuccessMessage('Profile Uploaded Successfully');
+                }, error => {
+                    if (error && error.message) ErrorMessage('Error: ' + error.message);
+                    else ErrorMessage('something went wrong');
+                })
+        } else {
             updateprofiledata(this.state.info)
-            .then(res=>{
-                setkey_data({ 'KeyName' : 'customerinfo','KeyData' : JSON.stringify(this.state.info) })
-                SuccessMessage('Profile Uploaded Successfully');
-            },error=>{
-                if(error && error.message) ErrorMessage('Error: '+error.message);
-                else ErrorMessage('something went wrong');
-            })
+                .then(res => {
+                    setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(this.state.info) })
+                    SuccessMessage('Profile Uploaded Successfully');
+                }, error => {
+                    if (error && error.message) ErrorMessage('Error: ' + error.message);
+                    else ErrorMessage('something went wrong');
+                })
         }
 
     }
@@ -137,15 +138,16 @@ export default class UserProfile extends Component {
     render() {
         let { imagePreviewUrl } = this.state;
         let $imagePreview = null;
-        
+        let value = 'apple';
+
         if (imagePreviewUrl) $imagePreview = (<img src={imagePreviewUrl} className="imgprofile" />);
-        else $imagePreview = (<img src={( this.state.info.ImageUrl )? this.state.info.ImageUrl : profileimg} alt="img" className="imgprofile" />)
+        else $imagePreview = (<img src={(this.state.info.ImageUrl) ? this.state.info.ImageUrl : profileimg} alt="img" className="imgprofile" />)
 
 
         return (
             <div>
-                <DisplayMessage timeduration={ 2000 }/>
-                <Header getHistory={this.props}/>
+                <DisplayMessage timeduration={2000} />
+                <Header getHistory={this.props} />
                 <section >
 
                     <div className="profile-main">
@@ -165,60 +167,79 @@ export default class UserProfile extends Component {
                         <div className="row">
                             <div className="col-md-6">
                                 <label>Full Name</label>
-                                <input type="text" placeholder="Enter Ful Name" onChange={this._handleInputField.bind(this , 'FullName')} value={this.state.info.FullName}/>
+                                <input type="text" placeholder="Enter Ful Name" onChange={this._handleInputField.bind(this, 'FullName')} value={this.state.info.FullName} />
                                 <span className="hint">(e.g : john)</span>
                             </div>
                             <div className="col-md-6">
                                 <label>Age</label>
-                                <input type="text" placeholder="Enter Age" onChange={this._handleInputField.bind(this , 'Age')} value={this.state.info.Age} />
+                                <input type="text" placeholder="Enter Age" onChange={this._handleInputField.bind(this, 'Age')} value={this.state.info.Age} />
                                 <span className="hint">(e.g : 23)</span>
                             </div>
                             <div className="col-md-6">
                                 <label>Email Address</label>
-                                <input value={ this.state.info.EmailAddress } disabled/>
+                                <input value={this.state.info.EmailAddress} disabled />
                                 <span className="hint">(e.g : abc@gmail.com)</span>
                             </div>
                             <div className="col-md-6">
                                 <label>Contact No</label>
-                                <input type="text" placeholder="Enter Contact No" onChange={ this._handleInputField.bind(this , 'ContactNo') } value={ this.state.info.ContactNo }/>
+                                <input type="text" placeholder="Enter Contact No" onChange={this._handleInputField.bind(this, 'ContactNo')} value={this.state.info.ContactNo} />
                                 <span className="hint">(e.g : 111222111)</span>
                             </div>
                             <div className="col-md-12">
                                 <label>Address</label>
-                                <input type="text" placeholder="Address" onChange={ this._handleInputField.bind(this , 'Address') } value={ this.state.info.Address }/>
+                                <input type="text" placeholder="Address" onChange={this._handleInputField.bind(this, 'Address')} value={this.state.info.Address} />
                                 <span className="hint"></span>
                             </div>
                             <div className="col-md-6">
                                 <label>Latitude</label>
-                                <input value={ this.state.info.Location.latitude } disabled/>
+                                <input value={this.state.info.Location.latitude} disabled />
                                 <span className="hint">(e.g : 24.656)</span>
                             </div>
                             <div className="col-md-6">
                                 <label>Longitude</label>
-                                <input value={ this.state.info.Location.longitude } disabled/>
+                                <input value={this.state.info.Location.longitude} disabled />
                                 <span className="hint">(e.g : 65.698)</span>
                             </div>
-                            
+
                         </div>
-                        <div className="sec-padding-xsmall bordertop sec-margin-xxsmall">
+                        <div className="sec-padding-xsmall bordertop sec-margin-xxsmall ">
                             <div className="row">
                                 <div className="col-md-6 ">
                                     <Link to="/dashboard" className="sec-padding-xxsmall">Go Back.</Link>
                                 </div>
                                 <div className="col-md-6 text-right">
-                                    <button className="btnmain" onClick={ this.updateprofile.bind(this) }>Submit</button> <button className="btnCancel">Cancel</button>
+                                    <button className="btnmain" onClick={this.updateprofile.bind(this)}>Submit</button> <button className="btnCancel">Cancel</button>
                                 </div>
                             </div>
                         </div>
+                        <div className='autocomplete-search'>
+                            <Autocomplete
+                                getItemValue={(item) => item.label}
+                                items={[
+                                    { label: 'apple' },
+                                    { label: 'banana' },
+                                    { label: 'pear' }
+                                ]}
+                                renderItem={(item, isHighlighted) =>
+                                    <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                                        {item.label}
+                                    </div>
+                                }
+                                value={ this.value }
+                                onChange={(e) => value = e.target.value}
+                                onSelect={(val) => value = val}
+                            />
+                            <button className="find-lctn">Find Location</button>
+                        </div>
                         {
-                            ( this.state.info.Location.latitude && this.state.info.Location.longitude )?
-                            <div className="row map-cls" align="center">
-                                <MapLocation latitude={ this.state.info.Location.latitude } longitude={ this.state.info.Location.longitude }/>
-                            </div>: null
+                            (this.state.info.Location.latitude && this.state.info.Location.longitude) ?
+                                <div className="row map-cls" align="center">
+                                    <MapLocation latitude={this.state.info.Location.latitude} longitude={this.state.info.Location.longitude} />
+                                </div> : null
 
                         }
 
-                        
+
                     </div>
                 </section>
             </div>

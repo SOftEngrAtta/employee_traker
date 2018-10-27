@@ -38,3 +38,22 @@
   background-color: #283e4a;
   outline: 1px solid #fff;
 }
+.bordertop{padding: 5px;}
+.autocomplete-search{text-align: center;padding: 5px;}
+.autocomplete-search div>input{width: 300px;border: none;border-bottom: 1px solid;}
+.autocomplete-search div>input:focus{box-shadow: none;}
+.autocomplete-search div>div{z-index: 9999;}
+.find-lctn{
+    background: #66b45f;
+    color: #fff;
+    padding: 3px 3px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 2px;
+    border: 1px solid #66b45f;
+    margin: 0px 5px;
+}
+.find-lctn:hover{
+    background: transparent;
+    color: #66b45f;
+}
