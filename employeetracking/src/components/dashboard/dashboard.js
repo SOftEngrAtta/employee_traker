@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
+
 import userimg from '../../images/user-icon.png';
 import cardImage from '../../images/cardImage.svg';
 
@@ -7,39 +9,52 @@ import cardImage from '../../images/cardImage.svg';
 import './dashboard.css';
 
 //service files 
-import { getkey_data , setkey_data } from '../../services/storage.service';
+import { getkey_data, setkey_data } from '../../services/storage.service';
 import { checkuser } from '../../services/employee.service'
 
 // components
 import Header from '../header/header';
 
 
+
 class Dashboard extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            userinfo : {}
+            userinfo: {},
+            prntbtnact: false
         }
     }
 
+
+
     componentWillMount() {
-        let userId = getkey_data({'KeyName' : 'Id'})
-        if(userId){
+        let userId = getkey_data({ 'KeyName': 'Id' })
+        if (userId) {
             checkuser(userId)
-            .then(res=>{
-                this.setState({
-                    userinfo : res.val()
+                .then(res => {
+                    this.setState({
+                        userinfo: res.val()
+                    })
+                    setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.val()) })
                 })
-                setkey_data({'KeyName':'customerinfo' , 'KeyData' : JSON.stringify(res.val())})
-            })
-        }else this.props.history.push('/login')
+        } else this.props.history.push('/login')
+    }
+
+
+    btnsslider() { 
+        $(".btns-grp").slideToggle("slow"); 
+        $(this).toggleClass("active");
+        if(this.state.prntbtnact) this.setState({prntbtnact : false });
+        else this.setState({ prntbtnact : true });
     }
 
     render() {
+
         return (
             <div className="prnt-dashboard">
-                <Header getHistory = { this.props }/>
+                <Header getHistory={this.props} />
                 <div className="row prnt-dsh">
                     <div className="container-fluid ">
                         <div className="col-lg-7 col-md-7 col-sm-8">
@@ -57,7 +72,7 @@ class Dashboard extends Component {
                                 <div className="list-cls">
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img"/></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img" /></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
@@ -65,7 +80,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img"/></div>
+                                            <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img" /></div>
                                         </li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
@@ -73,7 +88,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img"/></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img" /></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
@@ -81,7 +96,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img"/></div>
+                                            <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img" /></div>
                                         </li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
@@ -89,7 +104,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img"/></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img" /></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
@@ -97,7 +112,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img"/></div>
+                                            <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img" /></div>
                                         </li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
@@ -105,7 +120,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img"/></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img" /></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
@@ -113,7 +128,7 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedOut'><img src={userimg} alt="user image" className="usr-img"/></div>
+                                            <div className='userloggedOut'><img src={userimg} alt="user image" className="usr-img" /></div>
                                         </li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
@@ -121,14 +136,14 @@ class Dashboard extends Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img"/></div>
+                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img" /></div>
                                         </li>
                                         <li>Atta Ur Rehman</li>
                                         <li>Malir Halt , Karachi</li>
                                         <li>21 Sep, 2018 2:30PM</li>
                                     </ul>
                                     <ul>
-                                        <li> <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img"/></div></li>
+                                        <li> <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img" /></div></li>
                                         <li>Haseeb Ur Rehman</li>
                                         <li>Johar Mor , Karachi</li>
                                         <li>19 Sep, 2018 2:30PM</li>
@@ -145,14 +160,14 @@ class Dashboard extends Component {
                                 <div className="row">
                                     <div className="col-md-6 ">
                                         <div className="card" >
-                                            <img className="card-img-top" src={ cardImage } alt="Card image cap" />
+                                            <img className="card-img-top" src={cardImage} alt="Card image cap" />
                                             <div className="card-body">
                                                 <p className="card-grp-hd">Name : ABC Group</p>
                                                 <div className="row">
                                                     <div className="col-md-6 col-sm-6">
                                                         <p className="card-grp-cntnt"> created by </p>
                                                         <p className="card-grp-cntnt"> atta ur rehman </p>
-                                                        
+
                                                     </div>
                                                     <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
                                                         <p className="card-grp-cntnt"> 21 Sep, 2016</p>
@@ -160,21 +175,21 @@ class Dashboard extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="card-grp-crtd-img" align="center">
-                                                    <img src={ userimg } alt="user image"/>
+                                                    <img src={userimg} alt="user image" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="card" >
-                                            <img className="card-img-top" src={ cardImage } alt="Card image cap" />
+                                            <img className="card-img-top" src={cardImage} alt="Card image cap" />
                                             <div className="card-body">
                                                 <p className="card-grp-hd">Name : ABC Group</p>
                                                 <div className="row">
                                                     <div className="col-md-6 col-sm-6">
                                                         <p className="card-grp-cntnt"> created by </p>
                                                         <p className="card-grp-cntnt"> atta ur rehman </p>
-                                                        
+
                                                     </div>
                                                     <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
                                                         <p className="card-grp-cntnt"> 21 Sep, 2016</p>
@@ -182,21 +197,21 @@ class Dashboard extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="card-grp-crtd-img" align="center">
-                                                    <img src={ userimg } alt="user image"/>
+                                                    <img src={userimg} alt="user image" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="card" >
-                                            <img className="card-img-top" src={ cardImage } alt="Card image cap" />
+                                            <img className="card-img-top" src={cardImage} alt="Card image cap" />
                                             <div className="card-body">
                                                 <p className="card-grp-hd">Name : ABC Group</p>
                                                 <div className="row">
                                                     <div className="col-md-6 col-sm-6">
                                                         <p className="card-grp-cntnt"> created by </p>
                                                         <p className="card-grp-cntnt"> atta ur rehman </p>
-                                                        
+
                                                     </div>
                                                     <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
                                                         <p className="card-grp-cntnt"> 21 Sep, 2016</p>
@@ -204,21 +219,21 @@ class Dashboard extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="card-grp-crtd-img" align="center">
-                                                    <img src={ userimg } alt="user image"/>
+                                                    <img src={userimg} alt="user image" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="card" >
-                                            <img className="card-img-top" src={ cardImage } alt="Card image cap" />
+                                            <img className="card-img-top" src={cardImage} alt="Card image cap" />
                                             <div className="card-body">
                                                 <p className="card-grp-hd">Name : ABC Group</p>
                                                 <div className="row">
                                                     <div className="col-md-6 col-sm-6">
                                                         <p className="card-grp-cntnt"> created by </p>
                                                         <p className="card-grp-cntnt"> atta ur rehman </p>
-                                                        
+
                                                     </div>
                                                     <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
                                                         <p className="card-grp-cntnt"> 21 Sep, 2016</p>
@@ -226,7 +241,7 @@ class Dashboard extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="card-grp-crtd-img" align="center">
-                                                    <img src={ userimg } alt="user image"/>
+                                                    <img src={userimg} alt="user image" />
                                                 </div>
                                             </div>
                                         </div>
@@ -235,6 +250,20 @@ class Dashboard extends Component {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className="prnt-btns-grp">
+                    {
+                        (this.state.prntbtnact)?
+                        <i className="fa fa-minus mouse-cursor" onClick={ this.btnsslider.bind(this) }></i>:
+                        <i className="fa fa-plus mouse-cursor" onClick={ this.btnsslider.bind(this) }></i>
+                    }
+                    
+                    
+                </div>
+                <div className="btns-grp">
+                    <i className="fa fa-users "></i>
+                    <i className="fa fa-search "></i>
+                    <i className="fa fa-trash "></i>
                 </div>
             </div>
         )
