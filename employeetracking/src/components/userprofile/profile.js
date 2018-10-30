@@ -11,9 +11,19 @@ import { setkey_data } from '../../services/storage.service';
 // components 
 import Header from '../header/header';
 import MapLocation from '../maplocation/location';
-import './profile.css'
+
+// css files
+import './profile.css';
+
+// services
 import { updateprofiledata } from '../../services/employee.service';
+
+// shared files
 import DisplayMessage, { ErrorMessage, SuccessMessage } from '../../shared/responsemsg';
+
+// models 
+import { ProfileFields } from '../../model/userprofile'
+import GoogleApiComponent from 'google-maps-react/dist/GoogleApiComponent';
 
 
 var userinfo = {}; // user data variable { FullName : '' , Age : '' , EmailAddress : '' , ContactNo: 0, Address : ''}
@@ -24,27 +34,13 @@ export default class UserProfile extends Component {
 
 
     constructor(props) {
+
         super(props);
-        this.state = {
-            file: '',
-            imagePreviewUrl: '',
-            info: {
-                Id: '',
-                FullName: '',
-                Age: 0,
-                EmailAddress: '',
-                ContactNo: 0,
-                Address: '',
-                ImageUrl: '',
-                Location: {
-                    latitude: 0,
-                    longitude: 0
-                }
-            },
-        };
+        this.state = Object.assign({} , ProfileFields);
         userinfo = Object.assign({}, this.state.info);
         this.getlocation = this.getlocation.bind(this);
         this.showPosition = this.showPosition.bind(this);
+    
     }
 
     componentDidMount() {
@@ -135,6 +131,20 @@ export default class UserProfile extends Component {
 
     }
 
+    updateMapSearchBoxField(event){
+        let _profilefiels = Object.assign({},this.state);
+        _profilefiels['lctnApi']['userinput'] = event.target.value;
+        this.setState(_profilefiels)
+    }
+
+    findPlace(){
+        let _profilefiels = Object.assign({},this.state);
+        _profilefiels['lctnApi']['findLocation'] = this.state.lctnApi.userinput;
+        this.setState(_profilefiels)
+    }
+
+    
+
     render() {
         let { imagePreviewUrl } = this.state;
         let $imagePreview = null;
@@ -213,28 +223,13 @@ export default class UserProfile extends Component {
                             </div>
                         </div>
                         <div className='autocomplete-search'>
-                            <Autocomplete
-                                getItemValue={(item) => item.label}
-                                items={[
-                                    { label: 'apple' },
-                                    { label: 'banana' },
-                                    { label: 'pear' }
-                                ]}
-                                renderItem={(item, isHighlighted) =>
-                                    <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                                        {item.label}
-                                    </div>
-                                }
-                                value={ this.value }
-                                onChange={(e) => value = e.target.value}
-                                onSelect={(val) => value = val}
-                            />
-                            <button className="find-lctn">Find Location</button>
+                            <input type="text" onChange={ this.updateMapSearchBoxField.bind(this) } autoComplete="off"/>
+                            <button className="find-lctn" onClick={ this.findPlace.bind(this) }>Find Location</button>
                         </div>
                         {
                             (this.state.info.Location.latitude && this.state.info.Location.longitude) ?
                                 <div className="row map-cls" align="center">
-                                    <MapLocation latitude={this.state.info.Location.latitude} longitude={this.state.info.Location.longitude} />
+                                    <MapLocation latitude={this.state.info.Location.latitude} longitude={this.state.info.Location.longitude} searchBox={ this.state.lctnApi.findLocation } />
                                 </div> : null
 
                         }

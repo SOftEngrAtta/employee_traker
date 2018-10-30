@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, InfoWindow , Marker, GoogleApiWrapper  } from 'google-maps-react';
+
+ 
+
 
 const LoadingContainer = (props) => (
     <div>Fancy loading container!</div>
@@ -17,24 +20,22 @@ export class MapContainer extends Component {
             showingInfoWindow: false,
             activeMarker: {},
             selectedPlace: {},
+            searcbox : ''
         };
     }
 
-    onMarkerClick = (props, marker, e) =>
-        this.setState({
-            selectedPlace: props,
-            activeMarker: marker,
-            showingInfoWindow: true
-        });
+    componentWillReceiveProps(newprops){
+        console.log(newprops);
 
-    onMapClicked = (props) => {
-        if (this.state.showingInfoWindow) {
-            this.setState({
-                showingInfoWindow: false,
-                activeMarker: null
-            })
+        let mapfields = Object.assign({} , this.state);
+        
+        if(newprops.searchBox){
+            let _searchBox = new InfoWindow();
+            debugger
+
         }
-    };
+
+    }
 
     render() {
         return (
@@ -44,8 +45,10 @@ export class MapContainer extends Component {
                     lng: (this.props.longitude)? this.props.longitude : 67.168549
                 }}
                 zoom={13}
-                onClick={this.onMapClicked}>
-                <Marker onClick={this.onMarkerClick}
+
+                >
+                <Marker 
+                    
                     name={'Current location'} />
 
                 <InfoWindow
