@@ -37,14 +37,14 @@
 .card-grp-crtd-img img{ width: 20px;height: 20px;}
 
 
-.prnt-btns-grp {position: fixed; bottom: 10px; right: 40px;z-index: 1111;    background: #e0e0e0;}
-.prnt-btns-grp i{background: #283e4a; color: #fff; padding: 27px; border-radius: 50px;}
+.prnt-btns-grp {position: fixed; bottom: 10px; right: 25px;z-index: 1111;}
+.prnt-btns-grp i{background: #283e4a; color: #fff; padding: 21px; border-radius: 50px;}
 
-.btns-grp i{display: block;margin-bottom:20px;}
+.btns-grp i{display: block;margin-bottom:5px;}
 .btns-grp .fa-users{background: #5cb85c; color: #fff; padding: 20px; border-radius: 50px;}
 .btns-grp .fa-search{background: #b6b6b6; color: #fff; padding: 20px; border-radius: 50px;}
 .btns-grp .fa-trash{background: #dc3545; color: #fff; padding: 20px; border-radius: 50px;}
-.btns-grp{display: none;position: absolute; bottom: 80px; right: 45px;}
+.btns-grp{position: fixed;bottom: 65px;right: 25px;}
 @media only screen and (max-width: 768px) {
     .list-cls ul>li{vertical-align:top;}
 }

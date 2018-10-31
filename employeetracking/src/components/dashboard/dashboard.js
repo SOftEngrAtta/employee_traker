@@ -261,11 +261,15 @@ class Dashboard extends Component {
                     
                     
                 </div>
-                <div className="btns-grp">
-                    <i className="fa fa-users mouse-cursor" title="Create Group" ></i>  
-                    <i className="fa fa-search mouse-cursor" title="Search Group"></i> 
-                    <i className="fa fa-trash mouse-cursor" title="Delete Group"></i>  
-                </div>
+                {
+                    (this.state.prntbtnact)?
+                    <div className="btns-grp">
+                        <i className="fa fa-users mouse-cursor" title="Create Group" ></i>  
+                        <i className="fa fa-search mouse-cursor" title="Search Group"></i> 
+                        <i className="fa fa-trash mouse-cursor" title="Delete Group"></i>  
+                    </div>:null                    
+                }
+
             </div>
         )
     }
