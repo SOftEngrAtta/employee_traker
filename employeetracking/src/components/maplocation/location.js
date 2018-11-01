@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Map, InfoWindow, Marker, GoogleApiWrapper  }  from 'google-maps-react';
+import xml2js from 'xml2js';
 
 // services 
 import { findlocation } from '../../services/map.service'
@@ -34,6 +35,15 @@ export class MapContainer extends Component {
             findlocation(newprops.searchBox)
             .then(res=>{
                 debugger
+                if(res){
+
+                    xml2js.parseString(res.data,(err,_res)=>{
+                        debugger                        
+                        console.dir(_res);
+                    })
+                    // this.props.latitude = (res.latitude)?res.latitude:this.props.latitude;
+                    // this.props.longitude = (res.longitude)?res.longitude:this.props.longitude;
+                }else alert('sorry place not found');
             })
         }
 
