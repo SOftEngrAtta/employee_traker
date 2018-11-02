@@ -34,12 +34,10 @@ export class MapContainer extends Component {
         if (newprops.searchBox) {
             findlocation(newprops.searchBox)
             .then(res=>{
-                debugger
                 if(res){
-
                     xml2js.parseString(res.data,(err,_res)=>{
-                        debugger                        
-                        console.dir(_res);
+                        if(_res.PlaceSearchResponse.status[0] == "OVER_QUERY_LIMIT") alert('please check your map api billing over query limit');
+                        console.log(_res);
                     })
                     // this.props.latitude = (res.latitude)?res.latitude:this.props.latitude;
                     // this.props.longitude = (res.longitude)?res.longitude:this.props.longitude;

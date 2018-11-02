@@ -55,7 +55,6 @@ class SignIn extends Component {
 
         login({EmailAddress : this.state.EmailAddress,Password : this.state.Password})
         .then(success=>{
-            debugger
             SuccessMessage('Login successfully')
             setkey_data({'KeyName': 'Id' , 'KeyData': success.user.uid});
             this.props.history.push('/dashboard')

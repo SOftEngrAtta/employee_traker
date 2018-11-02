@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import $ from 'jquery';
 
 import userimg from '../../images/user-icon.png';
@@ -30,7 +31,7 @@ class Dashboard extends Component {
 
 
 
-    componentWillMount() {
+    componentDidMount() {
         let userId = getkey_data({ 'KeyName': 'Id' })
         if (userId) {
             checkuser(userId)
@@ -258,15 +259,13 @@ class Dashboard extends Component {
                         <i className="fa fa-minus mouse-cursor" onClick={ this.btnsslider.bind(this) }></i>:
                         <i className="fa fa-plus mouse-cursor" onClick={ this.btnsslider.bind(this) }></i>
                     }
-                    
-                    
                 </div>
                 {
                     (this.state.prntbtnact)?
                     <div className="btns-grp">
-                        <i className="fa fa-users mouse-cursor" title="Create Group" ></i>  
-                        <i className="fa fa-search mouse-cursor" title="Search Group"></i> 
-                        <i className="fa fa-trash mouse-cursor" title="Delete Group"></i>  
+                        <Link to="/create-group"><i className="fa fa-users mouse-cursor" title="Create Group" ></i></Link>  
+                        <Link to="/search-group"><i className="fa fa-search mouse-cursor" title="Search Group"></i></Link> 
+                        <Link to="/delete-group"><i className="fa fa-trash mouse-cursor" title="Delete Group"></i></Link>  
                     </div>:null                    
                 }
 

@@ -45,10 +45,10 @@
 .btns-grp .fa-search{background: #b6b6b6; color: #fff; padding: 20px; border-radius: 50px;}
 .btns-grp .fa-trash{background: #dc3545; color: #fff; padding: 20px; border-radius: 50px;}
 .btns-grp{position: fixed;bottom: 65px;right: 25px;}
+.btns-grp a{outline: none;}
+
+
 @media only screen and (max-width: 768px) {
     .list-cls ul>li{vertical-align:top;}
 }
-@media only screen and (max-width: 600px) {
 
-    
-}
