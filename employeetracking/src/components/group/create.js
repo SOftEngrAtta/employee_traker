@@ -16,7 +16,7 @@ import { checkuser } from '../../services/employee.service'
 import Header from '../header/header';
 
 //services 
-import { groupCreateUpdate, getGroups } from '../../services/group.service';
+import { groupCreateUpdate, getGroups , deletegroup } from '../../services/group.service';
 
 import { GroupData } from '../../model/group'
 
@@ -27,7 +27,7 @@ export default class CreateGroup extends Component {
 
     constructor(props) {
         super(props)
-        this.state = Object({ groups: [], counts: 0 }, GroupData);
+        this.state = Object({ groups: []}, GroupData);
     }
 
 
@@ -47,9 +47,6 @@ export default class CreateGroup extends Component {
                     this.groups();
                 })
         } else this.props.history.push('/login')
-
-
-
     }
 
     handler(event) {
@@ -63,8 +60,12 @@ export default class CreateGroup extends Component {
             .then(res => {
                 if (res) {
                     let _updategroups = Object.assign({}, this.state);
-                    _updategroups['groups'] = res.val();
-                    _updategroups['counts'] = res.numChildren();
+                    _updategroups['groups'] = [];
+                    res.forEach( (elem ) => {
+                        let grpObj = elem.val();
+                        grpObj['key'] = elem.key;
+                        _updategroups['groups'].push(grpObj)
+                    })
                     this.setState(_updategroups);
                 }
             })
@@ -74,10 +75,17 @@ export default class CreateGroup extends Component {
         groupCreateUpdate(this.state)
             .then(res => {
                 this.groups();
-                alert('group created successfully');
-            }, err => {
-                alert('getting some issues', err);
-            })
+                console.log('group created successfully');
+            }, err => { console.log('getting some error');})
+    }
+
+    groupDelete(key){
+        debugger
+        deletegroup({createrId : this.state.CreatedBy , groupKey : key})
+        .then(res=>{
+            console.log('group deleted successfully')
+            this.groups();
+        })
     }
 
     render() {
@@ -100,16 +108,17 @@ export default class CreateGroup extends Component {
                     <div class="row grps-row-cls">
                         {
                             (this.state.groups && this.state.groups.length) ?
-                                this.state.groups.map(item => {
+                                this.state.groups.map( (item) => {
+                                    console.log(item)
                                     return (
                                         <div class="col-md-3">
                                             <div className="card" >
                                                 <img className="card-img-top" src={cardImage} alt="Card image cap" />
                                                 <div className="card-body">
                                                     <p className="card-grp-hd">
-                                                        { item['FullName']}
+                                                        { item['FullName'] }
                                                         <i class="fa fa-edit"></i>
-                                                        <i class="fa fa-trash"></i>
+                                                        <i class="fa fa-trash" onClick={ this.groupDelete.bind(this, item['key']) }></i>
                                                     </p>
                                                 </div>
                                             </div>
