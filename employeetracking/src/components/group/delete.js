@@ -1,17 +1,38 @@
-import React , { Component } from 'react';
+import React, { Component } from 'react';
+import { Button } from 'react-bootstrap/lib';
+import { Typeahead } from 'react-bootstrap-typeahead';
+import { Link } from 'react-router-dom';
 
+import userimg from '../../images/user-icon.png';
+import cardImage from '../../images/cardImage.svg';
 
 //services 
 import { getkey_data, setkey_data } from '../../services/storage.service';
 import { checkuser } from '../../services/employee.service'
 
-// import components 
+// components 
 import Header from '../header/header';
 
+// services
+import { getAllGroups, deletegroup } from '../../services/group.service';
 
-export default class DeleteGroup extends Component{
+// models 
+import { GroupData } from '../../model/group'
+import { PagesName } from '../../model/pagesname'
 
-    componentDidMount(){
+// css file 
+import './group.css'
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+
+let PagesRoutes = new PagesName();
+export default class DeleteGroup extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = Object({ groups: [], allgroups: [], userInput: '' }, GroupData);
+    }
+
+    componentDidMount() {
         let userId = getkey_data({ 'KeyName': 'Id' })
         if (userId) {
             checkuser(userId)
@@ -21,15 +42,90 @@ export default class DeleteGroup extends Component{
                     })
                     setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.val()) })
                 })
+            this.groups(userId);
         } else this.props.history.push('/login')
     }
 
+    groups(Id) {
+        getAllGroups(Id)
+            .then(res => {
+                if (res) {
+                    let _updategroups = Object.assign({}, this.state);
+                    _updategroups['groups'] = res;
+                    _updategroups['allgroups'] = res;
+                    this.setState(_updategroups);
+                }
+            })
+    }
 
-    render(){
-        return(
+    groupDelete(key) {
+        deletegroup({ createrId: this.state.userinfo.Id, groupKey: key })
+            .then(res => {
+                console.log('group deleted successfully');
+                this.groups(this.state.userinfo['Id']);
+            })
+    }
+
+    handlerInput(event){
+        if(event && event.length){
+            let groupsDt = this.state;
+            groupsDt['groups'] = [groupsDt['allgroups'].find( elmnt => event[0]['FullName'].toLowerCase() == elmnt['FullName'].toLowerCase() )]
+            this.setState(groupsDt);
+        }else {
+            let groupDt = this.state ;
+            groupDt['groups'] = groupDt['allgroups'];
+            this.setState(groupDt)
+        }
+    }
+
+    changePage(key){ this.props.history.push('/'+PagesRoutes[key]); }
+
+    render() {
+        return (
             <div>
                 <Header getHistory={this.props} />
-                <h1>Delete Group</h1>
+                <div class="container">
+                    <div class="row" align="center">
+                        <div class="col-md-10" >
+                            <div class="prnt-inpt-fld">
+                                <Typeahead
+                                    labelKey="FullName"
+                                    options={ this.state.groups }
+                                    placeholder="Enter Group Name ...."
+                                    onChange={ this.handlerInput.bind(this) }
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* group list */}
+                <div class="container">
+                        
+                    <div class="row grps-row-cls">
+                        <div class="arw-lft-cls mouse-cursor" onClick={ this.changePage.bind(this , 'Dashboard') }><i class="fa fa-arrow-left"></i> Dashboard </div>
+                        {
+                            (this.state.groups && this.state.groups.length) ?
+                                this.state.groups.map((item) => {
+                                    console.log(item)
+                                    return (
+                                        <div class="col-md-3">
+                                            <div className="card" >
+                                                <img className="card-img-top" src={cardImage} alt="Card image cap" />
+                                                <div className="card-body">
+                                                    <p className="card-grp-hd">
+                                                        {item['FullName']}
+                                                        <i class="fa fa-edit mouse-cursor"></i>
+                                                        <i class="fa fa-trash mouse-cursor" title="Delete Group" onClick={this.groupDelete.bind(this, item['key'])}></i>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                }) : <div> No Record Found </div>
+                        }
+                    </div>
+                </div>
+
             </div>
         )
     }

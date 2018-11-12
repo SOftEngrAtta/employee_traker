@@ -10,8 +10,8 @@
     "history": "^4.7.2",
     "jquery": "^3.3.1",
     "react": "^16.5.0",
-    "react-autocomplete": "^1.8.1",
     "react-bootstrap": "^0.32.4",
+    "react-bootstrap-typeahead": "^3.2.4",
     "react-dom": "^16.5.0",
     "react-encrypt": "^1.0.1",
     "react-fontawesome": "^1.6.1",
@@ -20,6 +20,7 @@
     "react-images-uploader": "^1.2.0-rc1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.5",
+    "react-select2": "^4.0.3",
     "react-toastify": "^4.3.1",
     "xml2js": "^0.4.19"
   },

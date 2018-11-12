@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Map, InfoWindow, Marker, GoogleApiWrapper  }  from 'google-maps-react';
-import xml2js from 'xml2js';
+
 
 // services 
 import { findlocation } from '../../services/map.service'
@@ -22,44 +22,44 @@ export class MapContainer extends Component {
             showingInfoWindow: false,
             activeMarker: {},
             selectedPlace: {},
-            searcbox: ''
+            searcbox: '',
+            latitude : this.props.latitude , 
+            longitude : this.props.longitude
         };
+
     }
 
-    componentWillReceiveProps(newprops) {
-        console.log(newprops);
-
-        let mapfields = Object.assign({}, this.state);
-
-        if (newprops.searchBox) {
-            findlocation(newprops.searchBox)
-            .then(res=>{
-                if(res){
-                    xml2js.parseString(res.data,(err,_res)=>{
-                        if(_res.PlaceSearchResponse.status[0] == "OVER_QUERY_LIMIT") alert('please check your map api billing over query limit');
-                        console.log(_res);
-                    })
-                    // this.props.latitude = (res.latitude)?res.latitude:this.props.latitude;
-                    // this.props.longitude = (res.longitude)?res.longitude:this.props.longitude;
-                }else alert('sorry place not found');
-            })
-        }
-
+    componentWillReceiveProps(nextprops){
+        let updateoptns = Object.assign({},this.state);
+        updateoptns['latitude'] = nextprops.latitude;
+        updateoptns['longitude'] = nextprops.longitude; 
+        this.setState(updateoptns);
     }
 
     render() {
         return (
-                <Map google={this.props.google}
+                <Map 
+                    google={this.props.google}
                     initialCenter={{
                         lat: (this.props.latitude) ? this.props.latitude : 24.899038,
                         lng: (this.props.longitude) ? this.props.longitude : 67.168549
                     }}
-                    zoom={13}
-
-                >
+                    center={{
+                        lat: this.state.latitude,
+                        lng: this.state.longitude
+                    }}                    
+                    zoom={16}
+                    mapTypeControl={false}
+                    gestureHandling="greedy">
                     <Marker
-
-                        name={'Current location'} />
+                        name={'Current location'} 
+                        position={
+                            {
+                                lat: this.state.latitude, 
+                                lng: this.state.longitude
+                            }
+                        }
+                    />
 
                     <InfoWindow
                         marker={this.state.activeMarker}
@@ -75,7 +75,8 @@ export class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-    apiKey: ('AIzaSyCetrwl6BIEBZjddEkR804Fi_cNlHBKnyI'),
+    apiKey: ('AIzaSyDqw8C0Hb0o8jOp3EyyHurTM-erZjWddlo'),
     LoadingContainer: LoadingContainer
 })(MapContainer)
 
+// apiKey: ('AIzaSyCetrwl6BIEBZjddEkR804Fi_cNlHBKnyI'),

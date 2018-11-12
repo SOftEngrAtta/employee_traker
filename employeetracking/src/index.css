@@ -37,6 +37,7 @@ label{font-weight: 500;}
 }
 .margn-cls{ margin-top: 15px;}
 .mouse-cursor{ cursor: pointer; }
+
 /*** theme sections padding ***/
 .sec-padding-100 { padding:100px 0;} .sec-padding-90 { padding:90px 0;}
 .sec-padding-80 { padding:80px 0;} .sec-padding-70 { padding:70px 0;}

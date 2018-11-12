@@ -2,6 +2,7 @@
 .map {
     height: 300px;
 }
+.map-prnt-cls{ margin-top: 100px;}
    
 @media screen and (min-width: 1024px){
     .map {

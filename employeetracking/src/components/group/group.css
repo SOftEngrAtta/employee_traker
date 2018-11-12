@@ -43,3 +43,18 @@
 }
 .card-grp-hd .fa-edit{margin: 4%;color: #5cb85c;}
 .card-grp-hd .fa-trash{color:red;}
+.crt-grp-btn-cls .btn-danger:hover{
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+.prnt-inpt-fld{max-width: 500px;}
+.prnt-inpt-fld input{
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-bottom: 1px solid #283e4a;
+}
+.prnt-inpt-fld input:focus{box-shadow: none;border-bottom: 1px solid #283e4a;}
+
+.arw-lft-cls{margin-left: 15px;text-align: left;}

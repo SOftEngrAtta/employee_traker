@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import $ from 'jquery';
 
 import userimg from '../../images/user-icon.png';
@@ -9,14 +9,18 @@ import cardImage from '../../images/cardImage.svg';
 // css files
 import './dashboard.css';
 
-//service files 
+//services
 import { getkey_data, setkey_data } from '../../services/storage.service';
-import { checkuser } from '../../services/employee.service'
+import { checkuser } from '../../services/employee.service';
+import { getGroups , getAllGroups } from '../../services/group.service'
 
 // components
 import Header from '../header/header';
 
+//models
+import { PagesName } from '../../model/pagesname'
 
+let PagesRoutes = new PagesName();
 
 class Dashboard extends Component {
 
@@ -24,15 +28,20 @@ class Dashboard extends Component {
         super(props);
         this.state = {
             userinfo: {},
-            prntbtnact: false
+            prntbtnact: false,
+            groups: []
         }
     }
 
 
 
 
+
+
+
     componentDidMount() {
         let userId = getkey_data({ 'KeyName': 'Id' })
+
         if (userId) {
             checkuser(userId)
                 .then(res => {
@@ -41,16 +50,34 @@ class Dashboard extends Component {
                     })
                     setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.val()) })
                 })
+            this.getgroups(userId)
         } else this.props.history.push('/login')
     }
 
 
-    btnsslider() { 
-        $(".btns-grp").slideToggle("slow"); 
+    btnsslider() {
+        $(".btns-grp").slideToggle("slow");
         $(this).toggleClass("active");
-        if(this.state.prntbtnact) this.setState({prntbtnact : false });
-        else this.setState({ prntbtnact : true });
+        if (this.state.prntbtnact) this.setState({ prntbtnact: false });
+        else this.setState({ prntbtnact: true });
     }
+
+    /**************
+     * get groups 
+     **************/
+    getgroups(id) {
+        getAllGroups(id)
+            .then(res => {
+                if (res) {
+                    let _updategroups = Object.assign({}, this.state);
+                    _updategroups['groups'] = res;
+                    this.setState(_updategroups);
+                }
+            })
+    }
+
+
+    openGroupProfile(Key , PageName){ this.props.history.push('/'+PagesRoutes[PageName]+'/'+Key); }
 
     render() {
 
@@ -160,94 +187,36 @@ class Dashboard extends Component {
                                 <p className="grps-hd">Groups</p>
                                 {/* recent groups list detail */}
                                 <div className="row">
-                                    <div className="col-md-6 ">
-                                        <div className="card" >
-                                            <img className="card-img-top" src={cardImage} alt="Card image cap" />
-                                            <div className="card-body">
-                                                <p className="card-grp-hd">Name : ABC Group</p>
-                                                <div className="row">
-                                                    <div className="col-md-6 col-sm-6">
-                                                        <p className="card-grp-cntnt"> created by </p>
-                                                        <p className="card-grp-cntnt"> atta ur rehman </p>
+                                    {(this.state.groups && this.state.groups.length) ?
+                                        this.state.groups.map(item => {
+                                            return (
+                                                <div className="col-md-6 mouse-cursor" onClick={ this.openGroupProfile.bind(this , item['key'] , 'GroupDetail' ) }>
+                                                    <div className="card" >
+                                                        <img className="card-img-top" src={cardImage} alt="Card image cap" />
+                                                        <div className="card-body">
+                                                            <p className="card-grp-hd">Name : { item['FullName'] } </p>
+                                                            <div className="row">
+                                                                <div className="col-md-6 col-sm-6">
+                                                                    <p className="card-grp-cntnt"> created by </p>
+                                                                    <p className="card-grp-cntnt"> { this.state.userinfo['FullName'] } </p>
 
-                                                    </div>
-                                                    <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
-                                                        <p className="card-grp-cntnt"> 21 Sep, 2016</p>
-                                                        <p className="card-grp-cntnt"> 04:53 PM</p>
+                                                                </div>
+                                                                <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
+                                                                    <p className="card-grp-cntnt"> 21 Sep, 2016</p>
+                                                                    <p className="card-grp-cntnt"> 04:53 PM</p>
+                                                                </div>
+                                                            </div>
+                                                            {/* <div className="card-grp-crtd-img" align="center">
+                                                                <img src={ this.state.userinfo['ImageUrl'] } alt="user image" />
+                                                            </div> */}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div className="card-grp-crtd-img" align="center">
-                                                    <img src={userimg} alt="user image" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="card" >
-                                            <img className="card-img-top" src={cardImage} alt="Card image cap" />
-                                            <div className="card-body">
-                                                <p className="card-grp-hd">Name : ABC Group</p>
-                                                <div className="row">
-                                                    <div className="col-md-6 col-sm-6">
-                                                        <p className="card-grp-cntnt"> created by </p>
-                                                        <p className="card-grp-cntnt"> atta ur rehman </p>
+                                            )
+                                        })
+                                        : <div align="center"> No Record Found </div>
+                                    }
 
-                                                    </div>
-                                                    <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
-                                                        <p className="card-grp-cntnt"> 21 Sep, 2016</p>
-                                                        <p className="card-grp-cntnt"> 04:53 PM</p>
-                                                    </div>
-                                                </div>
-                                                <div className="card-grp-crtd-img" align="center">
-                                                    <img src={userimg} alt="user image" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="card" >
-                                            <img className="card-img-top" src={cardImage} alt="Card image cap" />
-                                            <div className="card-body">
-                                                <p className="card-grp-hd">Name : ABC Group</p>
-                                                <div className="row">
-                                                    <div className="col-md-6 col-sm-6">
-                                                        <p className="card-grp-cntnt"> created by </p>
-                                                        <p className="card-grp-cntnt"> atta ur rehman </p>
-
-                                                    </div>
-                                                    <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
-                                                        <p className="card-grp-cntnt"> 21 Sep, 2016</p>
-                                                        <p className="card-grp-cntnt"> 04:53 PM</p>
-                                                    </div>
-                                                </div>
-                                                <div className="card-grp-crtd-img" align="center">
-                                                    <img src={userimg} alt="user image" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="card" >
-                                            <img className="card-img-top" src={cardImage} alt="Card image cap" />
-                                            <div className="card-body">
-                                                <p className="card-grp-hd">Name : ABC Group</p>
-                                                <div className="row">
-                                                    <div className="col-md-6 col-sm-6">
-                                                        <p className="card-grp-cntnt"> created by </p>
-                                                        <p className="card-grp-cntnt"> atta ur rehman </p>
-
-                                                    </div>
-                                                    <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
-                                                        <p className="card-grp-cntnt"> 21 Sep, 2016</p>
-                                                        <p className="card-grp-cntnt"> 04:53 PM</p>
-                                                    </div>
-                                                </div>
-                                                <div className="card-grp-crtd-img" align="center">
-                                                    <img src={userimg} alt="user image" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -255,18 +224,18 @@ class Dashboard extends Component {
                 </div>
                 <div className="prnt-btns-grp">
                     {
-                        (this.state.prntbtnact)?
-                        <i className="fa fa-minus mouse-cursor" onClick={ this.btnsslider.bind(this) }></i>:
-                        <i className="fa fa-plus mouse-cursor" onClick={ this.btnsslider.bind(this) }></i>
+                        (this.state.prntbtnact) ?
+                            <i className="fa fa-minus mouse-cursor" onClick={this.btnsslider.bind(this)}></i> :
+                            <i className="fa fa-plus mouse-cursor" onClick={this.btnsslider.bind(this)}></i>
                     }
                 </div>
                 {
-                    (this.state.prntbtnact)?
-                    <div className="btns-grp">
-                        <Link to="/create-group"><i className="fa fa-users mouse-cursor" title="Create Group" ></i></Link>  
-                        <Link to="/search-group"><i className="fa fa-search mouse-cursor" title="Search Group"></i></Link> 
-                        <Link to="/delete-group"><i className="fa fa-trash mouse-cursor" title="Delete Group"></i></Link>  
-                    </div>:null                    
+                    (this.state.prntbtnact) ?
+                        <div className="btns-grp">
+                            <Link to="/create-group"><i className="fa fa-users mouse-cursor" title="Create Group" ></i></Link>
+                            <Link to="/search-group"><i className="fa fa-search mouse-cursor" title="Search Group"></i></Link>
+                            <Link to="/delete-group"><i className="fa fa-trash mouse-cursor" title="Delete Group"></i></Link>
+                        </div> : null
                 }
 
             </div>

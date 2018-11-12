@@ -57,7 +57,7 @@ class SignIn extends Component {
         .then(success=>{
             SuccessMessage('Login successfully')
             setkey_data({'KeyName': 'Id' , 'KeyData': success.user.uid});
-            this.props.history.push('/dashboard')
+            this.props.history.push('/dashboard');
         },error=>{
             if(error && error.message){
                 ErrorMessage("Error: ",error.message)

@@ -12,14 +12,17 @@ import './group.css';
 import { getkey_data, setkey_data } from '../../services/storage.service';
 import { checkuser } from '../../services/employee.service'
 
-// import components 
+//components 
 import Header from '../header/header';
 
 //services 
-import { groupCreateUpdate, getGroups , deletegroup } from '../../services/group.service';
+import { groupCreateUpdate, getGroups , deletegroup , getAllGroups } from '../../services/group.service';
 
-import { GroupData } from '../../model/group'
+//models
+import { GroupData } from '../../model/group';
+import { PagesName } from '../../model/pagesname';
 
+let PagesRoutes = new PagesName();
 
 export default class CreateGroup extends Component {
 
@@ -56,22 +59,24 @@ export default class CreateGroup extends Component {
     }
 
     groups() {
-        getGroups(this.state.CreatedBy)
+        getAllGroups(this.state.CreatedBy)
             .then(res => {
                 if (res) {
                     let _updategroups = Object.assign({}, this.state);
                     _updategroups['groups'] = [];
-                    res.forEach( (elem ) => {
-                        let grpObj = elem.val();
-                        grpObj['key'] = elem.key;
-                        _updategroups['groups'].push(grpObj)
-                    })
+                    _updategroups['groups'] = res;
                     this.setState(_updategroups);
                 }
             })
     }
 
     createGroup() {
+        
+        let groupfound = this.state['groups'].find( elemnt => elemnt['FullName'].trim().toLowerCase() == this.state['FullName'].trim().toLowerCase() )
+        if(groupfound){
+            alert('sorry this group name already exist');
+            return false ;
+        }
         groupCreateUpdate(this.state)
             .then(res => {
                 this.groups();
@@ -80,13 +85,14 @@ export default class CreateGroup extends Component {
     }
 
     groupDelete(key){
-        debugger
         deletegroup({createrId : this.state.CreatedBy , groupKey : key})
         .then(res=>{
-            console.log('group deleted successfully')
+            console.log('group deleted successfully');
             this.groups();
         })
     }
+
+    changePage(key){ this.props.history.push('/'+PagesRoutes[key]); }
 
     render() {
         return (
@@ -98,7 +104,7 @@ export default class CreateGroup extends Component {
                             <input class="crt-grp-cls" placeholder="Group Name" onChange={this.handler.bind(this)} />
                         </div>
                         <div class="col-md-6 crt-grp-btn-cls" align="left">
-                            <Button bsStyle="success" onClick={this.createGroup.bind(this)}>Create Group</Button>
+                            <Button bsStyle="success" onClick={this.createGroup.bind(this)}>Create</Button>
                         </div>
                     </div>
                 </div>
@@ -106,6 +112,7 @@ export default class CreateGroup extends Component {
                 {/* group list */}
                 <div class="container">
                     <div class="row grps-row-cls">
+                        <div class="arw-lft-cls mouse-cursor" onClick={ this.changePage.bind(this , 'Dashboard') }><i class="fa fa-arrow-left"></i> Dashboard </div>
                         {
                             (this.state.groups && this.state.groups.length) ?
                                 this.state.groups.map( (item) => {
@@ -117,8 +124,8 @@ export default class CreateGroup extends Component {
                                                 <div className="card-body">
                                                     <p className="card-grp-hd">
                                                         { item['FullName'] }
-                                                        <i class="fa fa-edit"></i>
-                                                        <i class="fa fa-trash" onClick={ this.groupDelete.bind(this, item['key']) }></i>
+                                                        <i class="fa fa-edit mouse-cursor"></i>
+                                                        <i class="fa fa-trash mouse-cursor" title="Delete Group" onClick={ this.groupDelete.bind(this, item['key']) }></i>
                                                     </p>
                                                 </div>
                                             </div>
