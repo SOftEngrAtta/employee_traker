@@ -7,6 +7,7 @@ let dataDB = fbDB.database();
  */
 export const getGroups = (Id) => dataDB.ref('groups/' + Id).once('value');
 
+
 /**
  * get all groups functionality 
  */
@@ -54,4 +55,15 @@ export const groupCreateUpdate = (data) => {
  * @param { data.groupKey } 
  *  
  */
-export const deletegroup = (data) => dataDB.ref('groups').child(data['createrId']).child(data['groupKey']).remove();
+export const deleteGroupRecord = (data) => dataDB.ref('groups').child(data['createrId']).child(data['groupKey']).remove();
+
+/**
+ * @param {*key} userId 
+ * @param {*key} grpId 
+ */ 
+export const getGroupInfo = (userId , grpId) => dataDB.ref('groups').child(userId).child(grpId).once('value');
+
+export const groupUpdateInfo = (data) => {
+    debugger
+    return dataDB.ref('groups').child(data['CreatedBy']).child(data['Id']).update(data)
+};

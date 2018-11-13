@@ -1,9 +1,10 @@
-export class GroupDetail {
-    Id
-    FullName 
-    ImageUrl
-    UpdateHistory
-    Admins
-    Users
-    CreatedBy   
+export const GroupDetailObj = {
+    Id : '' ,
+    FullName : String ,
+    Image : '' ,
+    UpdateHistory : [] ,
+    Address : String ,
+    Admins : [] ,
+    Users : [],
+    CreatedBy  : String  
 }

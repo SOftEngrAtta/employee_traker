@@ -192,7 +192,9 @@ class Dashboard extends Component {
                                             return (
                                                 <div className="col-md-6 mouse-cursor" onClick={ this.openGroupProfile.bind(this , item['key'] , 'GroupDetail' ) }>
                                                     <div className="card" >
-                                                        <img className="card-img-top" src={cardImage} alt="Card image cap" />
+                                                        {   (item['Image'])?
+                                                            <img className="card-img-top" src={ item['Image'] } alt="Card image cap" />
+                                                            :<img className="card-img-top" src={cardImage} alt="Card image cap" />}
                                                         <div className="card-body">
                                                             <p className="card-grp-hd">Name : { item['FullName'] } </p>
                                                             <div className="row">

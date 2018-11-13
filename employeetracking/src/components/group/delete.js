@@ -14,7 +14,7 @@ import { checkuser } from '../../services/employee.service'
 import Header from '../header/header';
 
 // services
-import { getAllGroups, deletegroup } from '../../services/group.service';
+import { getAllGroups, deleteGroupRecord } from '../../services/group.service';
 
 // models 
 import { GroupData } from '../../model/group'
@@ -59,7 +59,7 @@ export default class DeleteGroup extends Component {
     }
 
     groupDelete(key) {
-        deletegroup({ createrId: this.state.userinfo.Id, groupKey: key })
+        deleteGroupRecord({ createrId: this.state.userinfo.Id, groupKey: key })
             .then(res => {
                 console.log('group deleted successfully');
                 this.groups(this.state.userinfo['Id']);

@@ -16,7 +16,7 @@ import { checkuser } from '../../services/employee.service'
 import Header from '../header/header';
 
 //services 
-import { groupCreateUpdate, getGroups , deletegroup , getAllGroups } from '../../services/group.service';
+import { groupCreateUpdate, getGroups , deleteGroupRecord , getAllGroups } from '../../services/group.service';
 
 //models
 import { GroupData } from '../../model/group';
@@ -85,7 +85,7 @@ export default class CreateGroup extends Component {
     }
 
     groupDelete(key){
-        deletegroup({createrId : this.state.CreatedBy , groupKey : key})
+        deleteGroupRecord({createrId : this.state.CreatedBy , groupKey : key})
         .then(res=>{
             console.log('group deleted successfully');
             this.groups();
