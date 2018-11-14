@@ -1,6 +1,13 @@
+import { authState } from 'rxfire/auth'
+import { listVal , changeToData } from 'rxfire/database'
+import { tap } from 'rxjs/operators';
+
 import fbDB from '../config/firebasekeys'
 
 let dataDB = fbDB.database();
+let groupsdata = fbDB.database().ref('groups');
+
+
 
 /**
  * @param {Id}
@@ -11,29 +18,37 @@ export const getGroups = (Id) => dataDB.ref('groups/' + Id).once('value');
 /**
  * get all groups functionality 
  */
-export const getAllGroups = (id) => {
-    return dataDB.ref('groups').once('value')
-        .then(res => {
-            let _groups = [];
-            res.forEach(elem => {
-                elem.forEach(item => {
-                    let grpObj = item.val();
-                    grpObj['key'] = item.key;
-                    _groups.push(grpObj)
-                })
-            })
-            return _groups
-        })
-        .then(grps => {
-            let finalgroups = []
-            for (let i = 0; i < grps.length; i++) {
-                grps[i]['Users'].find(item => {
-                    if (id == item) finalgroups.push(grps[i])
-                })
-            }
-            return finalgroups;
-        })
+export const getAllGroups  = (id)=> {
+
+    let query = dataDB.ref('groups');
+    
+    let data = changeToData(query.on('value',res=> res))
+    debugger 
+    // return new Promise((resolve , reject)=>{
+    //     query.on('value' , snapshot => {
+    //         let _groups = []; let finalgroups = [];
+    //         snapshot.forEach(elem => {
+    //                 elem.forEach(item => {
+    //                     let grpObj = item.val();
+    //                     grpObj['key'] = item.key;
+    //                     _groups.push(grpObj)
+    //                 })
+    //             })
+        
+    //             for (let i = 0; i < _groups.length; i++) {
+    //                 _groups[i]['Users'].find(item => {
+    //                     if (id == item) finalgroups.push(_groups[i])
+    //                 })
+    //             }
+    //         resolve(finalgroups)
+    //     })
+    // })
+
+    
+
+    
 }
+
 
 /**
  * 
@@ -60,10 +75,11 @@ export const deleteGroupRecord = (data) => dataDB.ref('groups').child(data['crea
 /**
  * @param {*key} userId 
  * @param {*key} grpId 
- */ 
-export const getGroupInfo = (userId , grpId) => dataDB.ref('groups').child(userId).child(grpId).once('value');
+ */
+export const getGroupInfo = (userId, grpId) => dataDB.ref('groups').child(userId).child(grpId).once('value');
 
 export const groupUpdateInfo = (data) => {
-    debugger
+
     return dataDB.ref('groups').child(data['CreatedBy']).child(data['Id']).update(data)
 };
+

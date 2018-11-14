@@ -5,7 +5,8 @@
   "dependencies": {
     "@fortawesome/react-fontawesome": "^0.1.3",
     "axios": "^0.18.0",
-    "firebase": "^5.5.6",
+    "create-subscription": "^16.6.3",
+    "firebase": "^5.5.8",
     "google-maps-react": "^2.0.2",
     "history": "^4.7.2",
     "jquery": "^3.3.1",
@@ -18,10 +19,13 @@
     "react-geolocated": "^2.4.0",
     "react-image-file": "^0.3.0",
     "react-images-uploader": "^1.2.0-rc1",
+    "react-observable-subscribe": "^0.1.7",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.5",
     "react-select2": "^4.0.3",
     "react-toastify": "^4.3.1",
+    "rxfire": "^3.0.10",
+    "rxjs": "^6.3.3",
     "xml2js": "^0.4.19"
   },
   "scripts": {

@@ -94,6 +94,8 @@ export default class CreateGroup extends Component {
 
     changePage(key){ this.props.history.push('/'+PagesRoutes[key]); }
 
+    openGroupProfile(Key , PageName){ this.props.history.push('/'+PagesRoutes[PageName]+'/'+Key); }
+
     render() {
         return (
             <div>
@@ -120,11 +122,15 @@ export default class CreateGroup extends Component {
                                     return (
                                         <div class="col-md-3">
                                             <div className="card" >
-                                                <img className="card-img-top" src={cardImage} alt="Card image cap" />
+                                                {
+                                                    ( item['Image'] ) ? 
+                                                    <img className="card-img-top" src={ item['Image'] } alt="Card image cap" /> :
+                                                    <img className="card-img-top" src={ cardImage } alt="Card image cap" />
+                                                }
                                                 <div className="card-body">
                                                     <p className="card-grp-hd">
                                                         { item['FullName'] }
-                                                        <i class="fa fa-edit mouse-cursor"></i>
+                                                        <i class="fa fa-edit mouse-cursor" onClick={ this.openGroupProfile.bind(this , item['key'] , 'GroupDetail' ) }></i>
                                                         <i class="fa fa-trash mouse-cursor" title="Delete Group" onClick={ this.groupDelete.bind(this, item['key']) }></i>
                                                     </p>
                                                 </div>

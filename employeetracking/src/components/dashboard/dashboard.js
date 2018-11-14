@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
 import $ from 'jquery';
 
 import userimg from '../../images/user-icon.png';
 import cardImage from '../../images/cardImage.svg';
-
 
 // css files
 import './dashboard.css';
@@ -22,7 +22,9 @@ import { PagesName } from '../../model/pagesname'
 
 let PagesRoutes = new PagesName();
 
-class Dashboard extends Component {
+
+class Dashboard extends Component{
+
 
     constructor(props) {
         super(props);
@@ -33,13 +35,8 @@ class Dashboard extends Component {
         }
     }
 
-
-
-
-
-
-
     componentDidMount() {
+        
         let userId = getkey_data({ 'KeyName': 'Id' })
 
         if (userId) {
@@ -51,8 +48,10 @@ class Dashboard extends Component {
                     setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.val()) })
                 })
             this.getgroups(userId)
+            
         } else this.props.history.push('/login')
     }
+
 
 
     btnsslider() {
@@ -66,21 +65,21 @@ class Dashboard extends Component {
      * get groups 
      **************/
     getgroups(id) {
-        getAllGroups(id)
-            .then(res => {
-                if (res) {
-                    let _updategroups = Object.assign({}, this.state);
-                    _updategroups['groups'] = res;
-                    this.setState(_updategroups);
-                }
-            })
+            getAllGroups(id)
+            // .subscribe(res => {
+            //         if (res) {
+            //             let _updategroups = Object.assign({}, this.state);
+            //             _updategroups['groups'] = res;
+            //             this.setState(_updategroups);
+            //     }
+            // })
+        
     }
 
 
     openGroupProfile(Key , PageName){ this.props.history.push('/'+PagesRoutes[PageName]+'/'+Key); }
 
     render() {
-
         return (
             <div className="prnt-dashboard">
                 <Header getHistory={this.props} />
