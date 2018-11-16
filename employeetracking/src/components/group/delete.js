@@ -12,7 +12,7 @@ import Header from '../header/header';
 //services 
 import { getkey_data, setkey_data } from '../../services/storage.service';
 import { checkuser } from '../../services/employee.service'
-import { getAllGroups, deleteGroupRecord , modifiedGroups } from '../../services/group.service';
+import { getAllGroups, deleteGroupRecord , modifiedGroupsByUserId } from '../../services/group.service';
 
 // models 
 import { GroupData } from '../../model/group'
@@ -51,7 +51,7 @@ export default class DeleteGroup extends Component {
         getAllGroups()
             .subscribe(res => {
                 if (res) {
-                    let allGroups = modifiedGroups( res.snapshot , Id);
+                    let allGroups = modifiedGroupsByUserId( res.snapshot , Id);
                     let _updategroups = Object.assign({}, this.state);
                     _updategroups['groups'] = allGroups;
                     _updategroups['allgroups'] = allGroups;

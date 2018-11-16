@@ -12,7 +12,7 @@ import './dashboard.css';
 //services
 import { getkey_data, setkey_data } from '../../services/storage.service';
 import { checkuser } from '../../services/employee.service';
-import { getGroups, getAllGroups , modifiedGroups} from '../../services/group.service'
+import { getGroups, getAllGroups , modifiedGroupsByUserId} from '../../services/group.service'
 
 // components
 import Header from '../header/header';
@@ -67,7 +67,7 @@ class Dashboard extends Component {
     getgroups(id) {
         getAllGroups()
             .subscribe((res) => {
-                let allgroups = modifiedGroups(res.snapshot , id)
+                let allgroups = modifiedGroupsByUserId(res.snapshot , id)
                 let _updategroups = Object.assign({}, this.state);
                 _updategroups['groups'] = allgroups;
                 this.setState(_updategroups);

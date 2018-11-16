@@ -12,7 +12,6 @@ let groupsdata = fbDB.database().ref('groups');
  */
 export const getGroups = (Id) => dataDB.ref('groups/' + Id).once('value');
 
-
 /**
  * get all groups functionality 
  */
@@ -20,7 +19,29 @@ export const getAllGroups  = (id)=> {
     let query = dataDB.ref('groups');
     return fromRef(query, 'value')    
 }
-export const modifiedGroups = (snapshot , id)=>{
+
+/**
+ * 
+ * @param {* data Object } snapshot 
+ */ 
+export const modifiedGroups = (snapshot)=>{
+    let _groups = []; let finalgroups = [];
+    snapshot.forEach(elem => {
+        elem.forEach(item => {
+            let grpObj = item.val();
+            grpObj['key'] = item.key;
+            _groups.push(grpObj)
+        })
+    })
+    return _groups
+}
+
+/**
+ * 
+ * @param {* data Object} snapshot 
+ * @param {* user Id} id 
+ */ 
+export const modifiedGroupsByUserId = (snapshot , id)=>{
     let _groups = []; let finalgroups = [];
     snapshot.forEach(elem => {
         elem.forEach(item => {

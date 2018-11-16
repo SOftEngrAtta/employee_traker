@@ -16,7 +16,7 @@ import { checkuser } from '../../services/employee.service'
 import Header from '../header/header';
 
 //services 
-import { groupCreateUpdate, getGroups , deleteGroupRecord , getAllGroups , modifiedGroups } from '../../services/group.service';
+import { groupCreateUpdate, getGroups , deleteGroupRecord , getAllGroups , modifiedGroupsByUserId } from '../../services/group.service';
 
 //models
 import { GroupData } from '../../model/group';
@@ -62,7 +62,7 @@ export default class CreateGroup extends Component {
         getAllGroups()
             .subscribe(res => {
                 if (res) {
-                    let allGroups = modifiedGroups( res.snapshot , this.state.CreatedBy);
+                    let allGroups = modifiedGroupsByUserId( res.snapshot , this.state.CreatedBy);
                     let _updategroups = Object.assign({}, this.state);
                     _updategroups['groups'] = allGroups;
                     this.setState(_updategroups);
