@@ -12,7 +12,7 @@ import './dashboard.css';
 //services
 import { getkey_data, setkey_data } from '../../services/storage.service';
 import { checkuser } from '../../services/employee.service';
-import { getGroups , getAllGroups } from '../../services/group.service'
+import { getGroups, getAllGroups , modifiedGroups} from '../../services/group.service'
 
 // components
 import Header from '../header/header';
@@ -23,7 +23,7 @@ import { PagesName } from '../../model/pagesname'
 let PagesRoutes = new PagesName();
 
 
-class Dashboard extends Component{
+class Dashboard extends Component {
 
 
     constructor(props) {
@@ -36,7 +36,7 @@ class Dashboard extends Component{
     }
 
     componentDidMount() {
-        
+
         let userId = getkey_data({ 'KeyName': 'Id' })
 
         if (userId) {
@@ -48,7 +48,7 @@ class Dashboard extends Component{
                     setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.val()) })
                 })
             this.getgroups(userId)
-            
+
         } else this.props.history.push('/login')
     }
 
@@ -65,19 +65,18 @@ class Dashboard extends Component{
      * get groups 
      **************/
     getgroups(id) {
-            getAllGroups(id)
-            // .subscribe(res => {
-            //         if (res) {
-            //             let _updategroups = Object.assign({}, this.state);
-            //             _updategroups['groups'] = res;
-            //             this.setState(_updategroups);
-            //     }
-            // })
-        
+        getAllGroups()
+            .subscribe((res) => {
+                let allgroups = modifiedGroups(res.snapshot , id)
+                let _updategroups = Object.assign({}, this.state);
+                _updategroups['groups'] = allgroups;
+                this.setState(_updategroups);
+            })
+
     }
 
 
-    openGroupProfile(Key , PageName){ this.props.history.push('/'+PagesRoutes[PageName]+'/'+Key); }
+    openGroupProfile(Key, PageName) { this.props.history.push('/' + PagesRoutes[PageName] + '/' + Key); }
 
     render() {
         return (
@@ -189,17 +188,17 @@ class Dashboard extends Component{
                                     {(this.state.groups && this.state.groups.length) ?
                                         this.state.groups.map(item => {
                                             return (
-                                                <div className="col-md-6 mouse-cursor" onClick={ this.openGroupProfile.bind(this , item['key'] , 'GroupDetail' ) }>
+                                                <div className="col-md-6 mouse-cursor" onClick={this.openGroupProfile.bind(this, item['key'], 'GroupDetail')}>
                                                     <div className="card" >
-                                                        {   (item['Image'])?
-                                                            <img className="card-img-top" src={ item['Image'] } alt="Card image cap" />
-                                                            :<img className="card-img-top" src={cardImage} alt="Card image cap" />}
+                                                        {(item['Image']) ?
+                                                            <img className="card-img-top" src={item['Image']} alt="Card image cap" />
+                                                            : <img className="card-img-top" src={cardImage} alt="Card image cap" />}
                                                         <div className="card-body">
-                                                            <p className="card-grp-hd">Name : { item['FullName'] } </p>
+                                                            <p className="card-grp-hd">Name : {item['FullName']} </p>
                                                             <div className="row">
                                                                 <div className="col-md-6 col-sm-6">
                                                                     <p className="card-grp-cntnt"> created by </p>
-                                                                    <p className="card-grp-cntnt"> { this.state.userinfo['FullName'] } </p>
+                                                                    <p className="card-grp-cntnt"> {this.state.userinfo['FullName']} </p>
 
                                                                 </div>
                                                                 <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">

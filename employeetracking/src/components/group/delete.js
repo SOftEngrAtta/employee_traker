@@ -6,19 +6,20 @@ import { Link } from 'react-router-dom';
 import userimg from '../../images/user-icon.png';
 import cardImage from '../../images/cardImage.svg';
 
-//services 
-import { getkey_data, setkey_data } from '../../services/storage.service';
-import { checkuser } from '../../services/employee.service'
-
 // components 
 import Header from '../header/header';
 
-// services
-import { getAllGroups, deleteGroupRecord } from '../../services/group.service';
+//services 
+import { getkey_data, setkey_data } from '../../services/storage.service';
+import { checkuser } from '../../services/employee.service'
+import { getAllGroups, deleteGroupRecord , modifiedGroups } from '../../services/group.service';
 
 // models 
 import { GroupData } from '../../model/group'
 import { PagesName } from '../../model/pagesname'
+
+// shared files
+import DisplayMessage, { ErrorMessage, SuccessMessage } from '../../shared/responsemsg';
 
 // css file 
 import './group.css'
@@ -47,12 +48,13 @@ export default class DeleteGroup extends Component {
     }
 
     groups(Id) {
-        getAllGroups(Id)
-            .then(res => {
+        getAllGroups()
+            .subscribe(res => {
                 if (res) {
+                    let allGroups = modifiedGroups( res.snapshot , Id);
                     let _updategroups = Object.assign({}, this.state);
-                    _updategroups['groups'] = res;
-                    _updategroups['allgroups'] = res;
+                    _updategroups['groups'] = allGroups;
+                    _updategroups['allgroups'] = allGroups;
                     this.setState(_updategroups);
                 }
             })
@@ -61,7 +63,7 @@ export default class DeleteGroup extends Component {
     groupDelete(key) {
         deleteGroupRecord({ createrId: this.state.userinfo.Id, groupKey: key })
             .then(res => {
-                console.log('group deleted successfully');
+                SuccessMessage("group deleted successfully");
                 this.groups(this.state.userinfo['Id']);
             })
     }
@@ -85,6 +87,7 @@ export default class DeleteGroup extends Component {
     render() {
         return (
             <div>
+                <DisplayMessage timeduration={2000} />
                 <Header getHistory={this.props} />
                 <div class="container">
                     <div class="row" align="center">

@@ -1,7 +1,5 @@
-import { authState } from 'rxfire/auth'
-import { listVal , changeToData } from 'rxfire/database'
-import { tap } from 'rxjs/operators';
-
+import { fromRef } from 'rxfire/database';
+import { Observable } from 'rxjs'
 import fbDB from '../config/firebasekeys'
 
 let dataDB = fbDB.database();
@@ -19,34 +17,25 @@ export const getGroups = (Id) => dataDB.ref('groups/' + Id).once('value');
  * get all groups functionality 
  */
 export const getAllGroups  = (id)=> {
-
     let query = dataDB.ref('groups');
-    
-    let data = changeToData(query.on('value',res=> res))
-    debugger 
-    // return new Promise((resolve , reject)=>{
-    //     query.on('value' , snapshot => {
-    //         let _groups = []; let finalgroups = [];
-    //         snapshot.forEach(elem => {
-    //                 elem.forEach(item => {
-    //                     let grpObj = item.val();
-    //                     grpObj['key'] = item.key;
-    //                     _groups.push(grpObj)
-    //                 })
-    //             })
-        
-    //             for (let i = 0; i < _groups.length; i++) {
-    //                 _groups[i]['Users'].find(item => {
-    //                     if (id == item) finalgroups.push(_groups[i])
-    //                 })
-    //             }
-    //         resolve(finalgroups)
-    //     })
-    // })
+    return fromRef(query, 'value')    
+}
+export const modifiedGroups = (snapshot , id)=>{
+    let _groups = []; let finalgroups = [];
+    snapshot.forEach(elem => {
+        elem.forEach(item => {
+            let grpObj = item.val();
+            grpObj['key'] = item.key;
+            _groups.push(grpObj)
+        })
+    })
 
-    
-
-    
+    for (let i = 0; i < _groups.length; i++) {
+        _groups[i]['Users'].find(item => {
+            if (id == item) finalgroups.push(_groups[i])
+        })
+    }
+    return finalgroups
 }
 
 
