@@ -35,21 +35,37 @@ export default class SearchGroup extends Component {
                     updateObj['userInfo'] = res.val();
                     this.setState(updateObj);
                     setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.val()) })
+                    this.groups()
                 })
-            this.groups()
         } else this.props.history.push('/login')
     }
 
     groups() {
+
         getAllGroups()
             .subscribe(res => {
+
                 let _groups = modifiedGroups(res.snapshot)
-                let updateObj = Object.assign({}, this.state);
-                _groups.forEach(item=> item['activeReq'] = 'none' )
-                updateObj['groups'] = _groups;
-                updateObj['allGroups'] = _groups;
+                debugger
+                let finalGroups = []
+                if(_groups && _groups.length){
+                    _groups.forEach( item => { 
+                        item['Admins'].forEach( _item =>  {
+                            console.log(this.state)
+                            if(this.state['userInfo']['Id'] != _item){ 
+                                finalGroups.push(item) 
+                            } 
+                        })
+                    })
+                    console.log('finalGroups ==> ',finalGroups)
+                    let updateObj = Object.assign({}, this.state);
+                    _groups.forEach(item=> item['activeReq'] = 'none' )
+                    updateObj['groups'] = finalGroups;
+                    updateObj['allGroups'] = finalGroups;
+                    this.setState(updateObj);
                 
-                this.setState(updateObj);
+                }
+                
             })
     }
 

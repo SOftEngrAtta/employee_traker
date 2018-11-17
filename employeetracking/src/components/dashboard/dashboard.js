@@ -42,9 +42,10 @@ class Dashboard extends Component {
         if (userId) {
             checkuser(userId)
                 .then(res => {
-                    this.setState({
-                        userinfo: res.val()
-                    })
+                    let updateObj = Object.assign({},this.state);
+                    updateObj['userinfo'] = res.val();
+                    this.setState(updateObj)
+                    
                     setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.val()) })
                 })
             this.getgroups(userId)

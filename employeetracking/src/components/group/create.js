@@ -64,6 +64,7 @@ export default class CreateGroup extends Component {
                 if (res) {
                     let allGroups = modifiedGroupsByUserId( res.snapshot , this.state.CreatedBy);
                     let _updategroups = Object.assign({}, this.state);
+                    _updategroups['groups'] = [];
                     _updategroups['groups'] = allGroups;
                     this.setState(_updategroups);
                 }
