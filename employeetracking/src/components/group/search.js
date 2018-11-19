@@ -6,7 +6,8 @@ import Header from '../header/header';
 //services 
 import { getkey_data, setkey_data } from '../../services/storage.service';
 import { checkuser } from '../../services/employee.service'
-import { getAllGroups, modifiedGroups } from '../../services/group.service'
+import { getAllGroups, modifiedGroups, groupUpdateInfo } from '../../services/group.service'
+import DisplayMessage, { ErrorMessage, SuccessMessage } from '../../shared/responsemsg';
 
 //models
 import { PagesName } from '../../model/pagesname'
@@ -46,46 +47,98 @@ export default class SearchGroup extends Component {
             .subscribe(res => {
 
                 let _groups = modifiedGroups(res.snapshot)
-                debugger
                 let finalGroups = []
-                if(_groups && _groups.length){
-                    _groups.forEach( item => { 
-                        item['Admins'].forEach( _item =>  {
+                if (_groups && _groups.length) {
+                    _groups.forEach(item => {
+                        item['Admins'].forEach(_item => {
                             console.log(this.state)
-                            if(this.state['userInfo']['Id'] != _item){ 
-                                finalGroups.push(item) 
-                            } 
+                            if (this.state['userInfo']['Id'] != _item) {
+                                finalGroups.push(item)
+                            }
                         })
                     })
-                    console.log('finalGroups ==> ',finalGroups)
                     let updateObj = Object.assign({}, this.state);
-                    _groups.forEach(item=> item['activeReq'] = 'none' )
-                    updateObj['groups'] = finalGroups;
-                    updateObj['allGroups'] = finalGroups;
+                    updateObj['groups'] = []; updateObj['allGroups'] = [];
+                    updateObj['groups'] = this.statusModify(finalGroups , updateObj.userInfo.Id);
+                    updateObj['allGroups'] = updateObj['groups'];
                     this.setState(updateObj);
-                
                 }
-                
             })
     }
 
-    reqHit(index){
-        let updateObj = Object.assign({},this.state);
-        if(updateObj['groups'][index]['activeReq'] == 'none' ) {
+    statusModify(grps , userId){
+        let _grps = [];
+        grps.forEach( item =>{
+            if(item['Request'] && item['Request'].length){
+                let checkUser = false;
+                item['Request'].forEach(_elem => {
+                    if(userId == _elem['Id'])
+                    {   
+                        checkUser = true ;
+                        item['activeReq'] = _elem['status']
+                        _grps.push(item);
+                    }
+
+                });
+                if(!checkUser){
+                    item['activeReq'] = 'none';
+                    _grps.push(item)
+                };
+            }else {
+                item['activeReq'] = 'none';
+                _grps.push(item);
+            }
+        })
+        return _grps
+    }
+
+    reqHit(index) {
+
+        if(!this.state['userInfo']['FullName']) {
+            ErrorMessage('please complete your profile first'); return false;
+        }
+
+        let updateObj = Object.assign({}, this.state);
+        if (updateObj['groups'][index]['activeReq'] == 'none') {
             updateObj['groups'][index]['activeReq'] = 'in-process'
-        }else if(updateObj['groups'][index]['activeReq'] == 'in-process' || updateObj['groups'][index]['activeReq'] == 'approved'){
+        } else if (updateObj['groups'][index]['activeReq'] == 'in-process' || updateObj['groups'][index]['activeReq'] == 'approved') {
             updateObj['groups'][index]['activeReq'] = 'none'
         }
+
+        let _grp = updateObj['groups'][index];
+        let hitRequest = {
+            Id: updateObj['userInfo']['Id'],
+            FullName: updateObj['userInfo']['FullName'],
+            Image: updateObj['userInfo']['ImageUrl'],
+            status: _grp['activeReq']
+        }
+        debugger
+        if (_grp['activeReq'] != 'none'){
+            if(_grp['Request'] && _grp['Request'].length) _grp['Request'].push(hitRequest); 
+            else  _grp['Request'] = [hitRequest]; delete _grp['activeReq']
+        }else{
+            for(let i = 0 ; i < _grp['Request'].length ; i++){
+                if(_grp['Request'][i]['Id'] == updateObj['userInfo']['Id']){
+                    _grp['Request'].slice(1,i);
+                }
+            }
+        }
+        
+            
+        
+        groupUpdateInfo(_grp)
+            .then(res => { SuccessMessage('request has been sent successfully');})
+
         this.setState(updateObj);
     }
 
 
-    changePage(key){ this.props.history.push('/'+PagesRoutes[key]); }
+    changePage(key) { this.props.history.push('/' + PagesRoutes[key]); }
 
     render() {
-
         return (
             <div>
+                <DisplayMessage timeduration={2000} />
                 <Header getHistory={this.props} />
                 {/* group list */}
                 <div class="container">
@@ -94,7 +147,7 @@ export default class SearchGroup extends Component {
                         <div class="arw-lft-cls mouse-cursor" onClick={this.changePage.bind(this, 'Dashboard')}><i class="fa fa-arrow-left"></i> Dashboard </div>
                         {
                             (this.state.groups && this.state.groups.length) ?
-                                this.state.groups.map((item , index) => {
+                                this.state.groups.map((item, index) => {
                                     return (
                                         <div class="col-md-3">
                                             <div className="card" >
@@ -106,11 +159,13 @@ export default class SearchGroup extends Component {
 
                                                 <div className="card-body srch-grp-lst">
                                                     <p className="card-grp-hd">
-                                                       Group Name: {item['FullName']}
+                                                        Group Name: {item['FullName']}
                                                     </p>
-                                                    <span className={ item['activeReq']  } onClick={ this.reqHit.bind(this , index)}>
+                                                </div>
+                                                <div class="hit-tick">
+                                                    <span className={item['activeReq']} onClick={this.reqHit.bind(this, index)}>
                                                         <i class="fa fa-check"></i>
-                                                    </span>    
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

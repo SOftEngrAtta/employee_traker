@@ -68,9 +68,13 @@ export const modifiedGroupsByUserId = (snapshot , id)=>{
  * @param { data.users }
  * @param { data.admins }
  */
-export const groupCreateUpdate = (data) => {
-    let _data = { FullName: data['FullName'], Image: data['Image'], Admins: data['Admins'], Users: data['Users'], CreatedBy: data['CreatedBy'], createdAt: data['CreatedAt'] }
+export const groupCreate = (data) => {
+    let _data = { FullName: data['FullName'], Image: data['Image'], Admins: data['Admins'], Users: data['Users'], CreatedBy: data['CreatedBy']}
     return dataDB.ref('groups').child(_data['CreatedBy']).push(_data);
+}
+
+export const groupRequestUpdate = (data) => {
+    return dataDB.ref('groups').child(data['CreatedBy']).child(data['Id']).push({Request : data['request']})
 }
 
 /**
@@ -86,10 +90,13 @@ export const deleteGroupRecord = (data) => dataDB.ref('groups').child(data['crea
  * @param {*key} userId 
  * @param {*key} grpId 
  */
-export const getGroupInfo = (userId, grpId) => dataDB.ref('groups').child(userId).child(grpId).once('value');
+export const getGroupInfo = (userId, grpId) =>{
+    let query = dataDB.ref('groups').child(userId).child(grpId)
+    return fromRef(query,'value');
+}
 
 export const groupUpdateInfo = (data) => {
-
-    return dataDB.ref('groups').child(data['CreatedBy']).child(data['Id']).update(data)
+    let grpId = (data['Id'])?data['Id']:data['key'];
+    return dataDB.ref('groups').child(data['CreatedBy']).child(grpId).update(data)
 };
 

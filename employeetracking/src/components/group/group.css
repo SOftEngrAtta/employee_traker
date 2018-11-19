@@ -61,10 +61,21 @@
 
 .srch-grp-lst{ display: inline-flex;}
 .srch-grp-lst{ width: 100%;padding: 6px 1px 1px 20px; }
-.srch-grp-lst span{cursor: pointer; padding: 3px; border: 1px solid #ccc; border-radius: 50%; margin-left: 12px; width: 20px; height: 20px;}
-.srch-grp-lst span>i{color: #ccc;position: absolute;}
+
 
 .approved{background: #5cb85c !important;border: 1px solid #5cb85c !important;}
 .in-process{background: #ffbe00 !important;border: 1px solid #ffbe00 !important;}
 
 .in-process>i , .activeTick>i{color:#fff !important;}
+.hit-tick{ margin-bottom: 5px; text-align: center;}
+.hit-tick span{border-radius: 17px;padding: 1px;border:1px solid #ccc;cursor: pointer;}
+.hit-tick span>i{color:#ccc;}
+
+
+table{ width: 100%;margin-bottom: 5px;}
+table>tbody>tr{border-bottom: 1px solid #ccc;}
+table>tbody>tr>td{ width: 25%;text-align: center; }
+table>tbody>tr>td>img{width: 48px;border-radius: 50%; }
+
+.accept{padding: 5px; background: #5cb85c; border: 1px solid #5cb85c; color: #fff;}
+.reject{padding: 5px; background: #dc3545; border: 1px solid #dc3545; color: #fff;}

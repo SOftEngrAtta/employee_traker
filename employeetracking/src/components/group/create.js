@@ -16,7 +16,7 @@ import { checkuser } from '../../services/employee.service'
 import Header from '../header/header';
 
 //services 
-import { groupCreateUpdate, getGroups , deleteGroupRecord , getAllGroups , modifiedGroupsByUserId } from '../../services/group.service';
+import { groupCreate  , deleteGroupRecord , getAllGroups , modifiedGroupsByUserId } from '../../services/group.service';
 
 //models
 import { GroupData } from '../../model/group';
@@ -78,7 +78,7 @@ export default class CreateGroup extends Component {
             alert('sorry this group name already exist');
             return false ;
         }
-        groupCreateUpdate(this.state)
+        groupCreate(this.state)
             .then(res => {
                 this.groups();
                 console.log('group created successfully');

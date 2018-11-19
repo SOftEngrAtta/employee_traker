@@ -203,8 +203,13 @@ class Dashboard extends Component {
 
                                                                 </div>
                                                                 <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
-                                                                    <p className="card-grp-cntnt"> 21 Sep, 2016</p>
-                                                                    <p className="card-grp-cntnt"> 04:53 PM</p>
+                                                                    <p className="card-grp-cntnt"> Pending Req.</p>
+                                                                    <p className="card-grp-cntnt"> 
+                                                                        {
+                                                                            ( item['Request'] && item['Request'].length )?
+                                                                            item['Request'].length : 0
+                                                                        }
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                             {/* <div className="card-grp-crtd-img" align="center">
