@@ -52,10 +52,16 @@ class SignUp extends Component {
         }).then(success => {
             this.saveUserRecord({
                 EmailAddress: success.user.email,
-                Id: success.user.uid
+                Id: success.user.uid,
+                checkInStatus: false
             });
         }, error => {
-            ErrorMessage('Getting some error, contact with support team' , error);
+            if(error && error.message){
+                ErrorMessage('Error: '+error.message);
+            }else{
+                ErrorMessage('Getting error');
+            }
+            
         })
     }
 
@@ -64,7 +70,8 @@ class SignUp extends Component {
         .then(res=>{
             SuccessMessage('User has been created');
         }, error => {
-            ErrorMessage('Getting some error, contact with support team');
+            if(error && error.message) ErrorMessage('Error: '+error.message);
+            else ErrorMessage('Getting Error');
         })
     }
 

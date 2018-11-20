@@ -47,15 +47,16 @@ export default class UserProfile extends Component {
     componentDidMount() {
         userinfo['Id'] = this.props.match.params.id;
         checkuser(userinfo['Id'])
-            .then(res => {
-                userinfo['FullName'] = (res.val() && res.val().FullName) ? res.val().FullName : '';
-                userinfo['Age'] = (res.val() && res.val().Age) ? res.val().Age : 0;
-                userinfo['ContactNo'] = (res.val() && res.val().ContactNo) ? res.val().ContactNo : '';
-                userinfo['EmailAddress'] = (res.val() && res.val().EmailAddress) ? res.val().EmailAddress : '';
-                userinfo['ImageUrl'] = (res.val() && res.val().ImageUrl) ? res.val().ImageUrl : '';
-                userinfo['Address'] = (res.val() && res.val().Address) ? res.val().Address : '';
-                userinfo['Location']['latitude'] = (res.val() && res.val().Location && res.val().Location.latitude) ? res.val().Location.latitude : '';
-                userinfo['Location']['longitude'] = (res.val() && res.val().Location && res.val().Location.longitude) ? res.val().Location.longitude : '';
+            .subscribe(res => {
+                let data = res.snapshot.val();
+                userinfo['FullName'] = (data && data.FullName) ? data.FullName : '';
+                userinfo['Age'] = (data && data.Age) ? data.Age : 0;
+                userinfo['ContactNo'] = (data && data.ContactNo) ? data.ContactNo : '';
+                userinfo['EmailAddress'] = (data && data.EmailAddress) ? data.EmailAddress : '';
+                userinfo['ImageUrl'] = (data && data.ImageUrl) ? data.ImageUrl : '';
+                userinfo['Address'] = (data && data.Address) ? data.Address : '';
+                userinfo['Location']['latitude'] = (data && data.Location && data.Location.latitude) ? data.Location.latitude : '';
+                userinfo['Location']['longitude'] = (data && data.Location && data.Location.longitude) ? data.Location.longitude : '';
 
                 this.setState({ info: userinfo })
             })
@@ -259,7 +260,7 @@ export default class UserProfile extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className='autocomplete-search bordertop'>
+                        {/* <div className='autocomplete-search bordertop'>
                             <input placeholder="enter place name...." type="text" onChange={this.updateMapSearchBoxField.bind(this)} autoComplete="off" />
                             <button className="find-lctn" onClick={this.findPlace.bind(this)}>Find Location</button>
                         </div>
@@ -275,7 +276,7 @@ export default class UserProfile extends Component {
                             <div class="usr-lct-sv-btn" align="center">
                                 <button className="btnmain" onClick={ this.locationSaved.bind(this) }>Save Location</button>
                             </div>:null 
-                        }
+                        } */}
 
                     </div>
 

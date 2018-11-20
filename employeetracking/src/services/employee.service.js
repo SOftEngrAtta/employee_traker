@@ -1,5 +1,8 @@
 
-import fbDB from '../config/firebasekeys'
+import fbDB from '../config/firebasekeys';
+import { fromRef } from 'rxfire/database';
+import * as rxjs from 'rxjs';
+import { subscribeOn } from 'rxjs/internal/operators/subscribeOn';
 
 let dataDB = fbDB.database();
 
@@ -50,4 +53,36 @@ export const saveuserdb = ( data ) => dataDB.ref('users').child(data['Id']).upda
  * check user functionality 
  * @param { Id Key } data.Key
  * **/ 
-export const checkuser = (Id) => {return dataDB.ref('users/'+Id).once('value')};
+export const checkuser = (Id) => {
+    let query = dataDB.ref('users/'+Id);
+    
+    return fromRef(query,'value')
+
+    // return new rxjs.Observable( subscriber =>{
+    //     dataDB.ref('user/'+Id).once('value')
+    //     .then(res=>{
+    //         debugger
+    //     })
+    // })
+
+    // return new rxjs.Observable(function (subscriber) {
+
+    //     var fn = query.on(event, function (snapshot, prevKey) {
+    //         subscriber.next({ snapshot: snapshot, prevKey: prevKey, event: event });
+    //     }, subscriber.error.bind(subscriber));
+    //     return {
+    //         unsubscribe: function () {
+    //             query.off(event, fn);
+    //         }
+    //     };
+    // }).pipe(operators.delay(0));
+}
+
+
+/**
+ * get user
+ */ 
+export const getUser = (Id) => {
+    let query = dataDB.ref('users').child(Id);
+    return fromRef(query,'value');
+}

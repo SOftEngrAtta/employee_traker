@@ -37,11 +37,11 @@ export default class DeleteGroup extends Component {
         let userId = getkey_data({ 'KeyName': 'Id' })
         if (userId) {
             checkuser(userId)
-                .then(res => {
+                .subscribe(res => {
                     this.setState({
-                        userinfo: res.val()
+                        userinfo: res.snapshot.val()
                     })
-                    setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.val()) })
+                    setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.snapshot.val()) })
                 })
             this.groups(userId);
         } else this.props.history.push('/login')

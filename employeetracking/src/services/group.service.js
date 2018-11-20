@@ -69,7 +69,7 @@ export const modifiedGroupsByUserId = (snapshot , id)=>{
  * @param { data.admins }
  */
 export const groupCreate = (data) => {
-    let _data = { FullName: data['FullName'], Image: data['Image'], Admins: data['Admins'], Users: data['Users'], CreatedBy: data['CreatedBy']}
+    let _data = { FullName: data['FullName'], Image: data['Image'], Admins: data['Admins'], Users: data['Users'], CreatedBy: data['CreatedBy'], AdminName: data['userinfo']['FullName']}
     return dataDB.ref('groups').child(_data['CreatedBy']).push(_data);
 }
 

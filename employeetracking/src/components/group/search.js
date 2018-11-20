@@ -31,11 +31,11 @@ export default class SearchGroup extends Component {
         let userId = getkey_data({ 'KeyName': 'Id' })
         if (userId) {
             checkuser(userId)
-                .then(res => {
+                .subscribe(res => {
                     let updateObj = Object.assign({}, this.state);
-                    updateObj['userInfo'] = res.val();
+                    updateObj['userInfo'] = res.snapshot.val();
                     this.setState(updateObj);
-                    setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.val()) })
+                    setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.snapshot.val()) })
                     this.groups()
                 })
         } else this.props.history.push('/login')
@@ -112,19 +112,17 @@ export default class SearchGroup extends Component {
             Image: updateObj['userInfo']['ImageUrl'],
             status: _grp['activeReq']
         }
-        debugger
+
         if (_grp['activeReq'] != 'none'){
             if(_grp['Request'] && _grp['Request'].length) _grp['Request'].push(hitRequest); 
             else  _grp['Request'] = [hitRequest]; delete _grp['activeReq']
         }else{
-            for(let i = 0 ; i < _grp['Request'].length ; i++){
-                if(_grp['Request'][i]['Id'] == updateObj['userInfo']['Id']){
-                    _grp['Request'].slice(1,i);
-                }
-            }
+            _grp['Request'] = this.removeKeysFromArray(updateObj['userInfo'],_grp['Request']); 
+            _grp['Users'] = this.removeKeysFromArray(updateObj['userInfo'],_grp['Users']);
+            _grp['Admins'] = this.removeKeysFromArray(updateObj['userInfo'],_grp['Admins']);
         }
         
-            
+        delete _grp['userinfo'];
         
         groupUpdateInfo(_grp)
             .then(res => { SuccessMessage('request has been sent successfully');})
@@ -132,6 +130,17 @@ export default class SearchGroup extends Component {
         this.setState(updateObj);
     }
 
+
+    removeKeysFromArray(user , _array){
+        for(let i = 0 ; i < _array.length ; i++){
+            if(_array[i]['Id'] && _array[i]['Id'] == user['Id']){
+                _array.splice(i,1);
+            }else if(_array[i] == user['Id']){
+                _array.splice(i,1);
+            }
+        }
+        return _array;
+    }
 
     changePage(key) { this.props.history.push('/' + PagesRoutes[key]); }
 

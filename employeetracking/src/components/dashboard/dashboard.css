@@ -23,8 +23,8 @@
 
 .userloggedOut{ background: red; width: 34px; height: 34px; border-radius: 50%;  }
 .userloggedIn{ background: #5cb85c; width: 34px; height: 34px; border-radius: 50%;  }
-.userloggedOut img, .userloggedIn img{ margin-left:0px;width:100%;} 
-.usr-img{ width: 100%;}
+.userloggedOut img, .userloggedIn img{ margin-left:0px;width:30px;margin-top: 2px;} 
+.usr-img{ width: 100%; border-radius: 50px;}
 .view-detail{background: #283e4a; color: #fff; padding: 4px 17px; font-size: 13px; font-weight: 500; border-radius: 2px; border: 1px solid #283e4a; margin: 0px 5px;}
 .view-detail:hover{color: #283e4a;background: #fff;}
 

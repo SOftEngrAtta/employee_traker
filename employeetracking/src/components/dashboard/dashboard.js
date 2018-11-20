@@ -11,14 +11,16 @@ import './dashboard.css';
 
 //services
 import { getkey_data, setkey_data } from '../../services/storage.service';
-import { checkuser } from '../../services/employee.service';
+import { checkuser , getUser } from '../../services/employee.service';
 import { getGroups, getAllGroups , modifiedGroupsByUserId} from '../../services/group.service'
+
 
 // components
 import Header from '../header/header';
 
 //models
 import { PagesName } from '../../model/pagesname'
+import { ErrorMessage } from '../../shared/responsemsg';
 
 let PagesRoutes = new PagesName();
 
@@ -31,7 +33,8 @@ class Dashboard extends Component {
         this.state = {
             userinfo: {},
             prntbtnact: false,
-            groups: []
+            groups: [],
+            groupUsers: []
         }
     }
 
@@ -41,12 +44,12 @@ class Dashboard extends Component {
 
         if (userId) {
             checkuser(userId)
-                .then(res => {
+                .subscribe(res => {
                     let updateObj = Object.assign({},this.state);
-                    updateObj['userinfo'] = res.val();
+                    updateObj['userinfo'] = res.snapshot.val();
                     this.setState(updateObj)
                     
-                    setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.val()) })
+                    setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.snapshot.val()) })
                 })
             this.getgroups(userId)
 
@@ -71,13 +74,61 @@ class Dashboard extends Component {
                 let allgroups = modifiedGroupsByUserId(res.snapshot , id)
                 let _updategroups = Object.assign({}, this.state);
                 _updategroups['groups'] = allgroups;
+                _updategroups['groupUsers'] = [];
                 this.setState(_updategroups);
+                this.getAllUsers(_updategroups['groups'] , 0)
             })
-
     }
 
+    getAllUsers(grps,index){
+        let updateObj = Object.assign({}, this.state);
+        updateObj['groupUsers'] = [];
+        this.setState(updateObj);
 
-    openGroupProfile(Key, PageName) { this.props.history.push('/' + PagesRoutes[PageName] + '/' + Key); }
+        if(index == grps.length){
+            console.log('users received');
+        }else{
+            this.getUsers(grps , index)
+        } 
+    }
+
+    getUsers(grps , index){
+        grps[index]['Users'].map(Id=>{
+            getUser(Id).subscribe(res=>{
+                this.saveGrpUser(res.snapshot.val());
+            })
+        })
+        index++;
+        this.getAllUsers(grps,index);
+    }
+    saveGrpUser(data){
+        if(data){
+            let updateObj = Object.assign({},this.state);
+            if(updateObj['groupUsers'] && updateObj['groupUsers'].length){
+                let checkUser = false; 
+                for(let i = 0 ; i < updateObj['groupUsers'].length ; i++){
+                    if(updateObj['groupUsers'][i]['Id'] == data['Id']){
+                        updateObj['groupUsers'][i] = data;
+                        checkUser = true ;
+                    }
+                }
+                if(!checkUser) updateObj['groupUsers'].push(data); 
+            }else updateObj['groupUsers'].push(data)
+            
+            this.setState(updateObj);
+        }
+    }
+
+    openGroupProfile(group, PageName) { 
+       let checkUser = false;
+        for(let i = 0; i < group['Admins'].length ; i++ ){
+            if(this.state.userinfo['Id'] == group['Admins'][i]){
+                checkUser = true;
+                this.props.history.push('/' + PagesRoutes[PageName] + '/' + group['key'] );     
+            }
+        }
+        if(!checkUser) ErrorMessage('sorry you are not allow to open group profile');
+    }
 
     render() {
         return (
@@ -98,85 +149,28 @@ class Dashboard extends Component {
 
                                 {/* recent logged list detail */}
                                 <div className="list-cls">
-                                    <ul>
-                                        <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img" /></div>
-                                        </li>
-                                        <li>Atta Ur Rehman</li>
-                                        <li>Malir Halt , Karachi</li>
-                                        <li>21 Sep, 2018 2:30PM</li>
-                                    </ul>
-                                    <ul>
-                                        <li>
-                                            <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img" /></div>
-                                        </li>
-                                        <li>Haseeb Ur Rehman</li>
-                                        <li>Johar Mor , Karachi</li>
-                                        <li>19 Sep, 2018 2:30PM</li>
-                                    </ul>
-                                    <ul>
-                                        <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img" /></div>
-                                        </li>
-                                        <li>Atta Ur Rehman</li>
-                                        <li>Malir Halt , Karachi</li>
-                                        <li>21 Sep, 2018 2:30PM</li>
-                                    </ul>
-                                    <ul>
-                                        <li>
-                                            <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img" /></div>
-                                        </li>
-                                        <li>Haseeb Ur Rehman</li>
-                                        <li>Johar Mor , Karachi</li>
-                                        <li>19 Sep, 2018 2:30PM</li>
-                                    </ul>
-                                    <ul>
-                                        <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img" /></div>
-                                        </li>
-                                        <li>Atta Ur Rehman</li>
-                                        <li>Malir Halt , Karachi</li>
-                                        <li>21 Sep, 2018 2:30PM</li>
-                                    </ul>
-                                    <ul>
-                                        <li>
-                                            <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img" /></div>
-                                        </li>
-                                        <li>Haseeb Ur Rehman</li>
-                                        <li>Johar Mor , Karachi</li>
-                                        <li>19 Sep, 2018 2:30PM</li>
-                                    </ul>
-                                    <ul>
-                                        <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img" /></div>
-                                        </li>
-                                        <li>Atta Ur Rehman</li>
-                                        <li>Malir Halt , Karachi</li>
-                                        <li>21 Sep, 2018 2:30PM</li>
-                                    </ul>
-                                    <ul>
-                                        <li>
-                                            <div className='userloggedOut'><img src={userimg} alt="user image" className="usr-img" /></div>
-                                        </li>
-                                        <li>Haseeb Ur Rehman</li>
-                                        <li>Johar Mor , Karachi</li>
-                                        <li>19 Sep, 2018 2:30PM</li>
-                                    </ul>
-                                    <ul>
-                                        <li>
-                                            <div className='userloggedIn'><img src={userimg} alt="img" className="usr-img" /></div>
-                                        </li>
-                                        <li>Atta Ur Rehman</li>
-                                        <li>Malir Halt , Karachi</li>
-                                        <li>21 Sep, 2018 2:30PM</li>
-                                    </ul>
-                                    <ul>
-                                        <li> <div className='userloggedOut'><img src={userimg} alt="img" className="usr-img" /></div></li>
-                                        <li>Haseeb Ur Rehman</li>
-                                        <li>Johar Mor , Karachi</li>
-                                        <li>19 Sep, 2018 2:30PM</li>
-                                    </ul>
-
+                                    {
+                                        (this.state.groupUsers && this.state.groupUsers.length)?
+                                        this.state.groupUsers.map(item=>{
+                                            return(
+                                                <ul>
+                                                    <li>
+                                                        <div className={ (item['checkInStatus'])?'userloggedIn':'userloggedOut' }>
+                                                            {
+                                                                (item['ImageUrl'])?
+                                                                <img src={ item['ImageUrl'] } alt="img" className="usr-img" />
+                                                                :<img src={userimg} alt="img" className="usr-img" />
+                                                            }
+                                                        </div>
+                                                    </li>
+                                                    <li>{ item['FullName'] }</li>
+                                                    <li>Malir Halt , Karachi</li>
+                                                    <li>View Profile</li>
+                                                </ul>
+                                            )
+                                        }):''
+                                    }
+                                    
                                 </div>
 
                             </div>
@@ -189,7 +183,7 @@ class Dashboard extends Component {
                                     {(this.state.groups && this.state.groups.length) ?
                                         this.state.groups.map(item => {
                                             return (
-                                                <div className="col-md-6 mouse-cursor" onClick={this.openGroupProfile.bind(this, item['key'], 'GroupDetail')}>
+                                                <div className="col-md-6 mouse-cursor" onClick={this.openGroupProfile.bind(this, item, 'GroupDetail' )}>
                                                     <div className="card" >
                                                         {(item['Image']) ?
                                                             <img className="card-img-top" src={item['Image']} alt="Card image cap" />
@@ -198,23 +192,17 @@ class Dashboard extends Component {
                                                             <p className="card-grp-hd">Name : {item['FullName']} </p>
                                                             <div className="row">
                                                                 <div className="col-md-6 col-sm-6">
-                                                                    <p className="card-grp-cntnt"> created by </p>
-                                                                    <p className="card-grp-cntnt"> {this.state.userinfo['FullName']} </p>
+                                                                    <p className="card-grp-cntnt"> Admin </p>
+                                                                    <p className="card-grp-cntnt"> { item['AdminName'] } </p>
 
                                                                 </div>
                                                                 <div className="col-md-6 col-sm-6 card-grp-crtd-brdr">
-                                                                    <p className="card-grp-cntnt"> Pending Req.</p>
+                                                                    <p className="card-grp-cntnt"> Total Users</p>
                                                                     <p className="card-grp-cntnt"> 
-                                                                        {
-                                                                            ( item['Request'] && item['Request'].length )?
-                                                                            item['Request'].length : 0
-                                                                        }
+                                                                        { item['Users'].length }
                                                                     </p>
                                                                 </div>
                                                             </div>
-                                                            {/* <div className="card-grp-crtd-img" align="center">
-                                                                <img src={ this.state.userinfo['ImageUrl'] } alt="user image" />
-                                                            </div> */}
                                                         </div>
                                                     </div>
                                                 </div>

@@ -3,7 +3,7 @@ export const GroupDetailObj = {
     FullName : String ,
     Image : '' ,
     UpdateHistory : [] ,
-    Address : String ,
+    Address : '' ,
     Admins : [] ,
     Users : [],
     CreatedBy  : String  

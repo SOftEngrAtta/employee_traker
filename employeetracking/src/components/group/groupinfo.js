@@ -36,11 +36,11 @@ export default class GroupInfo extends Component {
         let userId = getkey_data({ 'KeyName': 'Id' })
         if (userId) {
             checkuser(userId)
-                .then(res => {
+                .subscribe(res => {
                     let updateState = Object.assign({}, this.state);
-                    updateState['userinfo'] = res.val();
+                    updateState['userinfo'] = res.snapshot.val();
                     this.setState(updateState)
-                    setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.val()) })
+                    setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.snapshot.val()) })
                 })
             this.getgroup(userId);
         } else this.props.history.push('/login')
@@ -49,15 +49,16 @@ export default class GroupInfo extends Component {
     getgroup(Id) {
         getGroupInfo(Id, this.props.match.params.id)
             .subscribe(res => {
-                debugger
+                
                 let groupsInfo = res.snapshot.val()
-
-                let updateGropInfo = Object.assign({}, this.state);
-                for (let key in updateGropInfo) {
-                    if (key != "userinfo" && groupsInfo[key]) updateGropInfo[key] = groupsInfo[key];
-                    if (!updateGropInfo['Id']) updateGropInfo['Id'] = this.props.match.params.id;
+                if(groupsInfo){
+                    let updateGropInfo = Object.assign({}, this.state);
+                    for (let key in updateGropInfo) {
+                        if (key != "userinfo" && groupsInfo[key]) updateGropInfo[key] = groupsInfo[key];
+                        if (!updateGropInfo['Id']) updateGropInfo['Id'] = this.props.match.params.id;
+                    }
+                    this.setState(updateGropInfo);
                 }
-                this.setState(updateGropInfo);
             })
     }
 
@@ -109,6 +110,46 @@ export default class GroupInfo extends Component {
             })
     }
 
+
+    approveRequest(user){
+        let updateObj = Object.assign({},this.state);
+        if(!updateObj['Address']){
+            ErrorMessage('please update group profile first');
+            return false;
+        }
+        updateObj['Users'].push(user['Id']);
+        for(let i=0;i< updateObj['Request'].length; i++){
+            if(updateObj['Request'][i]['Id'] == user['Id']){
+                updateObj['Request'][i]['status'] = 'approved';
+            }
+        }
+        this.setState(updateObj)
+        groupUpdateInfo(updateObj)
+        .then(res=>{
+            SuccessMessage('request accepted successfully');
+            let userId = getkey_data({ 'KeyName': 'Id' })
+            this.getgroup(userId);
+        })
+    }
+
+    rejectRequest(user){
+        let updateObj = Object.assign({},this.state);
+        if(!updateObj['Address']){
+            ErrorMessage('please update group profile first');
+            return false;
+        }
+        for(let i = 0 ; i < updateObj['Request'].length ; i++ ){
+            if( updateObj['Request'][i]['Id'] == user['Id'] ) updateObj['Request'].splice(i,1)
+        }
+        this.setState(updateObj)
+        groupUpdateInfo(updateObj)
+        .then(res=>{
+            SuccessMessage('request rejected successfully');
+            let userId = getkey_data({ 'KeyName': 'Id' })
+            this.getgroup(userId);
+        })
+    }
+
     render() {
 
         let { imagePreviewUrl } = this.state;
@@ -144,7 +185,7 @@ export default class GroupInfo extends Component {
                             </div>
                             <div className="col-md-6">
                                 <label>Address</label>
-                                <input type="text" placeholder="Address" onChange={this._handleInputField.bind(this, 'Address')} value={this.state.Address} />
+                                <input type="text" placeholder="Address" onChange={this._handleInputField.bind(this, 'Address')} value={ this.state.Address } />
                                 <span className="hint"></span>
                             </div>
                         </div>
@@ -157,7 +198,9 @@ export default class GroupInfo extends Component {
                         </div>
                         { (this.state['Request'] && this.state['Request'].length) ?
                             this.state.Request.map(item => {
+                                
                                 return (
+                                    (item['status'] != 'approved')?
                                     <div>
                                         <table>
                                             <tbody>
@@ -175,15 +218,15 @@ export default class GroupInfo extends Component {
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        <span className="accept mouse-cursor">Accept</span>
+                                                        <span className="accept mouse-cursor" onClick={ this.approveRequest.bind(this , item) }>Accept</span>
                                                     </td>
                                                     <td>
-                                                        <span className="reject mouse-cursor">Reject</span>
+                                                        <span className="reject mouse-cursor" onClick={ this.rejectRequest.bind(this , item)}>Reject</span>
                                                     </td>                                                    
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>)
+                                    </div>:null)
                             }) : null
                         }
                     </div>

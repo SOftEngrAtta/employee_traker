@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 
 //import services
 import { logoutuser } from '../../services/authentication.service';
-import { checkuser } from '../../services/employee.service'
-import { getkey_data } from '../../services/storage.service';
+import { checkuser , updateprofiledata } from '../../services/employee.service'
+import { getkey_data , clearhistory } from '../../services/storage.service';
 
 // import files from shared folder 
-import DisplayMessage , { ErrorMessage } from '../../shared/responsemsg';
+import DisplayMessage , { ErrorMessage, SuccessMessage } from '../../shared/responsemsg';
 
 // import images
 import userimg from '../../images/user-icon.png'
@@ -31,14 +31,16 @@ class Header extends Component {
 
         setInterval(()=>{
             let customerinfo = getkey_data({'KeyName':'customerinfo'});
-            if(customerinfo){
+            if(customerinfo != "null" && customerinfo){
+                let userInfo = JSON.parse(customerinfo);
+                userInfo['checkInStatus'] = (userInfo['checkInStatus'])?userInfo['checkInStatus']:false; 
                 this.setState({
-                    userinfo : JSON.parse(customerinfo)
+                    userinfo : userInfo
                 })
             }
         },1000)
     }
-        
+
     /* Open the sidenav */
     openNav() {
         document.getElementById("mySidenav").style.width = "250px";
@@ -53,11 +55,15 @@ class Header extends Component {
     componentDidMount(){
         
         let customerinfo = getkey_data({'KeyName':'customerinfo'});
+
         if(!customerinfo){
             checkuser(uid)
-            .then(res=>{
+            .subscribe(res=>{
+                let userInfo = res.snapshot.val();
+                debugger
+                userInfo['checkInStatus'] = (userInfo['checkInStatus'])?userInfo['checkInStatus']:false;
                 this.setState({
-                    userinfo : res.val()
+                    userinfo : userInfo
                 })
             },error=>{
                 ErrorMessage('Error: ',(error.message)?error.message:'something went wrong');
@@ -70,8 +76,24 @@ class Header extends Component {
 
     }
 
+    handleChangeChk(){
+        let updateObj = Object.assign({},this.state);
+        if(updateObj['userinfo']['checkInStatus']) updateObj['userinfo']['checkInStatus'] = false;
+        else updateObj['userinfo']['checkInStatus'] = true;
 
-    logout(){ logoutuser().then(res=>{ this.props.getHistory.history.push('/login') }) }
+        this.setState(updateObj);
+
+        updateprofiledata(this.state.userinfo)
+        .then(res=>{
+            SuccessMessage('status updated');
+        })
+    }
+
+    logout(){ logoutuser().then(res=>{ 
+        clearhistory();        
+        this.props.getHistory.history.push('/login') 
+    }) 
+    }
 
     render() {
         return (
@@ -88,18 +110,18 @@ class Header extends Component {
                             <span onClick={this.openNav} className="rspnov"><i className="fa fa-bars"></i></span>
                         </div>
                         <div className="col-md-3 col-sm-2 hidden-xs text-right">
-                            <a href="/notification" className="notifictaions"><i className="fa fa-bell-o" aria-hidden="true"></i></a>
+                            {/* <a href="/notification" className="notifictaions"><i className="fa fa-bell-o" aria-hidden="true"></i></a> */}
                         </div>
                         <div className="col-md-1 col-sm-2 col-xs-2 hidden-xs text-right">
                             <label className="switch">
-                                <input type="checkbox" />
+                                <input type="checkbox" checked={ (this.state.userinfo && this.state.userinfo.checkInStatus)?this.state.userinfo.checkInStatus:false } onChange={this.handleChangeChk.bind(this)}/>
                                 <span className="slider round"></span>
                             </label>
                         </div>
                         <div className="col-md-2 col-sm-3">
                         
                             <div className="nvright hidden-xs">
-                                <div className="img-div">
+                                <div className={ (this.state.userinfo && this.state.userinfo.checkInStatus)?'online-user':'offline-user' }>
                                     <img className="usr-dp" src=
                                         {
                                             (this.state.userinfo && this.state.userinfo.ImageUrl) ?

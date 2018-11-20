@@ -21,6 +21,7 @@ import { groupCreate  , deleteGroupRecord , getAllGroups , modifiedGroupsByUserI
 //models
 import { GroupData } from '../../model/group';
 import { PagesName } from '../../model/pagesname';
+import { ErrorMessage } from '../../shared/responsemsg';
 
 let PagesRoutes = new PagesName();
 
@@ -39,14 +40,14 @@ export default class CreateGroup extends Component {
         let userId = getkey_data({ 'KeyName': 'Id' })
         if (userId) {
             checkuser(userId)
-                .then(res => {
+                .subscribe(res => {
                     let _userinfo = Object.assign({}, GroupData);
-                    _userinfo['userinfo'] = res.val();
-                    _userinfo['CreatedBy'] = res.val().Id;
-                    _userinfo['Admins'].push(res.val().Id);
-                    _userinfo['Users'].push(res.val().Id);
+                    _userinfo['userinfo'] = res.snapshot.val();
+                    _userinfo['CreatedBy'] = res.snapshot.val().Id;
+                    _userinfo['Admins'].push(res.snapshot.val().Id);
+                    _userinfo['Users'].push(res.snapshot.val().Id);
                     this.setState(_userinfo)
-                    setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.val()) })
+                    setkey_data({ 'KeyName': 'customerinfo', 'KeyData': JSON.stringify(res.snapshot.val()) })
                     this.groups();
                 })
         } else this.props.history.push('/login')
@@ -75,8 +76,8 @@ export default class CreateGroup extends Component {
         
         let groupfound = this.state['groups'].find( elemnt => elemnt['FullName'].trim().toLowerCase() == this.state['FullName'].trim().toLowerCase() )
         if(groupfound){
-            alert('sorry this group name already exist');
-            return false ;
+            ErrorMessage('sorry this group name already exist');
+            return false;
         }
         groupCreate(this.state)
             .then(res => {
@@ -95,7 +96,18 @@ export default class CreateGroup extends Component {
 
     changePage(key){ this.props.history.push('/'+PagesRoutes[key]); }
 
-    openGroupProfile(Key , PageName){ this.props.history.push('/'+PagesRoutes[PageName]+'/'+Key); }
+    openGroupProfile(group , PageName){ 
+        let checkUser = false;
+        for(let i = 0; i < group['Admins'].length ; i++ ){
+            if(this.state.userinfo['Id'] == group['Admins'][i]){
+                checkUser = true;
+                this.props.history.push('/' + PagesRoutes[PageName] + '/' + group['key'] );     
+            }
+        }
+        if(!checkUser) ErrorMessage('sorry you are not allow to open group profile');
+
+        // this.props.history.push('/'+PagesRoutes[PageName]+'/'+grp['key']); 
+    }
 
     render() {
         return (
@@ -131,7 +143,7 @@ export default class CreateGroup extends Component {
                                                 <div className="card-body">
                                                     <p className="card-grp-hd">
                                                         { item['FullName'] }
-                                                        <i class="fa fa-edit mouse-cursor" onClick={ this.openGroupProfile.bind(this , item['key'] , 'GroupDetail' ) }></i>
+                                                        <i class="fa fa-edit mouse-cursor" onClick={ this.openGroupProfile.bind(this , item , 'GroupDetail' ) }></i>
                                                         <i class="fa fa-trash mouse-cursor" title="Delete Group" onClick={ this.groupDelete.bind(this, item['key']) }></i>
                                                     </p>
                                                 </div>
