@@ -50,12 +50,12 @@ export default class SearchGroup extends Component {
                 let finalGroups = []
                 if (_groups && _groups.length) {
                     _groups.forEach(item => {
+                        let checkUser = false; 
                         item['Admins'].forEach(_item => {
-                            console.log(this.state)
-                            if (this.state['userInfo']['Id'] != _item) {
-                                finalGroups.push(item)
-                            }
+                            if (this.state['userInfo']['Id'] != _item) checkUser = true ;
                         })
+
+                        if(checkUser) finalGroups.push(item); checkUser = false;
                     })
                     let updateObj = Object.assign({}, this.state);
                     updateObj['groups'] = []; updateObj['allGroups'] = [];
