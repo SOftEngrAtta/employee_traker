@@ -61,7 +61,6 @@ class SignIn extends Component {
             setkey_data({'KeyName': 'Id' , 'KeyData': success.user.uid});
             this.props.history.push('/dashboard');
         },error=>{
-
             if(error && error.message){
                 ErrorMessage("Error: "+error.message)
             }else ErrorMessage('Invalid username and password'); 

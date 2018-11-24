@@ -60,7 +60,6 @@ class Header extends Component {
             checkuser(uid)
             .subscribe(res=>{
                 let userInfo = res.snapshot.val();
-                debugger
                 userInfo['checkInStatus'] = (userInfo['checkInStatus'])?userInfo['checkInStatus']:false;
                 this.setState({
                     userinfo : userInfo
